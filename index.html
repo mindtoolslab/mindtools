@@ -3,113 +3,223 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="마음쓰임은 문화예술과 자연을 통해 정서적 쉼을 제공합니다">
-<title>마음쓰임 | 외로움을 사회의 언어로</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<meta name="description" content="마음쓰임은 외로움과 감정을 연구하며, 숲과 예술로 관계를 잇습니다.">
+<title>마음쓰임 | Mind Tools Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { font-family: 'Noto Sans KR', sans-serif; color: #332B45; background: #FBF9F6; }
+  body { font-family: 'Noto Sans KR', sans-serif; color: #332B45; background: #F5F1FC; overflow-x: hidden; }
+
+  /* 추상 배경 그라데이션 */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(ellipse 70% 50% at 5% 15%, rgba(160,110,240,0.35) 0%, transparent 55%),
+      radial-gradient(ellipse 55% 70% at 95% 5%, rgba(120,80,210,0.28) 0%, transparent 50%),
+      radial-gradient(ellipse 65% 45% at 70% 85%, rgba(190,140,255,0.22) 0%, transparent 55%),
+      radial-gradient(ellipse 45% 55% at 80% 50%, rgba(140,90,220,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 40% at 30% 60%, rgba(170,120,245,0.15) 0%, transparent 50%),
+      #F5F1FC;
+    pointer-events: none;
+  }
 
   /* NAV */
   .nav {
     position: sticky; top: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
-    padding: 24px 80px;
-    background: rgba(251,249,246,0.95); backdrop-filter: blur(8px);
+    padding: 20px 60px;
+    background: rgba(245,241,252,0.96); backdrop-filter: blur(10px);
     border-bottom: 1px solid #EFE6E0;
   }
-  .nav .logo { font-size: 24px; font-weight: 900; color: #5B3E96; letter-spacing: 1px; text-decoration: none; }
-  .nav .menu { display: flex; gap: 40px; }
-  .nav .menu a { font-size: 16px; color: #665E78; font-weight: 500; text-decoration: none; transition: color 0.2s; }
+  .nav .logo img { height: 36px; width: auto; filter: brightness(0) saturate(100%) invert(22%) sepia(60%) saturate(800%) hue-rotate(240deg) brightness(80%); }
+  .nav .menu { display: flex; gap: 36px; }
+  .nav .menu a { font-size: 15px; color: #665E78; font-weight: 500; text-decoration: none; transition: color 0.2s; }
   .nav .menu a:hover { color: #5B3E96; }
-  .nav-hamburger { display: none; font-size: 24px; cursor: pointer; color: #5B3E96; background: none; border: none; }
 
-  /* HERO */
-  .hero { padding: 100px 80px 80px; text-align: center; }
-  .hero h1 { font-size: 60px; font-weight: 900; line-height: 1.4; color: #5B3E96; margin-bottom: 28px; }
-  .hero .subtitle { font-size: 20px; color: #766E80; line-height: 1.8; max-width: 680px; margin: 0 auto 48px; }
+  /* HERO — 비대칭 타이포 레이아웃 */
+  .hero {
+    min-height: 90vh;
+    padding: 80px 60px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .hero-left { padding-right: 40px; }
+  .hero-tag {
+    display: inline-block; font-size: 13px; font-weight: 500;
+    color: #8A6BC8; background: #F0EBFA;
+    padding: 6px 16px; border-radius: 999px; margin-bottom: 36px;
+    letter-spacing: 1px;
+  }
+  .hero-left h1 {
+    font-size: 52px; line-height: 1.45;
+    color: #2A1F40; margin-bottom: 0;
+    letter-spacing: -0.5px;
+  }
+  .hero-left h1 .bold {
+    font-weight: 900; color: #5B3E96;
+  }
+  .hero-left h1 .thin {
+    font-weight: 300; color: #766E80;
+  }
+  .hero-sub {
+    margin-top: 40px;
+    font-size: 16px; color: #766E80; line-height: 1.8; font-weight: 400;
+    max-width: 400px;
+  }
   .hero-cta {
-    display: inline-block; background: #5B3E96; color: #fff;
-    font-size: 17px; font-weight: 700; padding: 16px 40px;
+    display: inline-block; margin-top: 40px;
+    background: #5B3E96; color: #fff;
+    font-size: 15px; font-weight: 700; padding: 14px 36px;
     border-radius: 999px; text-decoration: none; transition: background 0.2s;
   }
   .hero-cta:hover { background: #4A3080; }
-  .hero-visual {
-    margin: 60px auto 0; max-width: 1040px; height: 340px; border-radius: 28px;
-    background: linear-gradient(135deg, #5B3E96 0%, #8A6BC8 60%, #E8694A 100%);
-    display: flex; align-items: center; justify-content: center;
+
+  /* HERO RIGHT — 슬라이드쇼 */
+  .hero-right { position: relative; }
+  .slideshow {
+    border-radius: 24px; overflow: hidden;
+    aspect-ratio: 4/3;
+    background: #3D2A6B;
+    position: relative;
   }
-  .hero-visual span { color: rgba(255,255,255,0.92); font-size: 22px; font-weight: 500; letter-spacing: 2px; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: flex-end;
+    padding: 40px;
+    opacity: 0; transition: opacity 0.8s ease;
+  }
+  .slide.active { opacity: 1; }
+  .slide-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+  }
+  .slide-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(30,15,60,0.85) 0%, rgba(30,15,60,0.1) 60%);
+  }
+  .slide-content { position: relative; z-index: 1; }
+  .slide-num { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 8px; letter-spacing: 2px; }
+  .slide-title { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .slide-sub { font-size: 14px; color: rgba(255,255,255,0.7); }
+
+  /* 슬라이드 색상 (이미지 없을 때 placeholder) */
+  .slide:nth-child(1) .slide-bg { background: linear-gradient(135deg, #5B3E96, #8A6BC8); }
+  .slide:nth-child(2) .slide-bg { background: linear-gradient(135deg, #8A6BC8, #E8694A); }
+  .slide:nth-child(3) .slide-bg { background: linear-gradient(135deg, #3D2A6B, #6B4FA0); }
+  .slide:nth-child(4) .slide-bg { background: linear-gradient(135deg, #E8694A, #5B3E96); }
+  .slide:nth-child(5) .slide-bg { background: linear-gradient(135deg, #6B4FA0, #C8A0E8); }
+  .slide:nth-child(6) .slide-bg { background: linear-gradient(135deg, #4A3080, #E8694A); }
+
+  .slide-dots {
+    display: flex; gap: 8px; margin-top: 20px; justify-content: flex-end;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 999px;
+    background: #D4C2EC; cursor: pointer; transition: all 0.3s;
+    border: none;
+  }
+  .dot.active { background: #5B3E96; width: 24px; }
 
   /* SECTION */
-  .section { padding: 100px 80px; max-width: 1200px; margin: 0 auto; }
-  .section-label { font-size: 15px; font-weight: 700; color: #E8694A; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
-  .section-title { font-size: 40px; font-weight: 900; color: #5B3E96; margin-bottom: 16px; }
-  .section-desc { font-size: 18px; color: #766E80; line-height: 1.8; max-width: 700px; margin-bottom: 52px; }
+  .section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+  .section-label { font-size: 13px; font-weight: 700; color: #E8694A; margin-bottom: 10px; letter-spacing: 2px; text-transform: uppercase; }
 
-  /* CARDS */
-  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .card {
-    background: #fff; border-radius: 20px; padding: 36px;
-    border: 1px solid #EFE6E0; transition: box-shadow 0.2s, transform 0.2s;
+  /* 프로그램 — 비대칭 */
+  .programs-layout { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
+  .programs-left h2 { font-size: 36px; font-weight: 900; color: #5B3E96; line-height: 1.3; }
+  .programs-left p { margin-top: 20px; font-size: 15px; color: #766E80; line-height: 1.8; }
+  .program-list { display: flex; flex-direction: column; gap: 2px; }
+  .program-item {
+    padding: 28px 32px; border-radius: 16px;
+    background: #fff; border: 1px solid #EFE6E0;
+    transition: all 0.2s; cursor: default;
+    display: flex; align-items: center; gap: 24px;
   }
-  .card:hover { box-shadow: 0 8px 32px rgba(91,62,150,0.12); transform: translateY(-4px); }
-  .card .icon { width: 48px; height: 48px; border-radius: 14px; margin-bottom: 24px; }
-  .card.c1 .icon { background: #E3D6F7; }
-  .card.c2 .icon { background: #FDE0D8; }
-  .card.c3 .icon { background: #D6E8F0; }
-  .card h3 { font-size: 22px; font-weight: 700; color: #5B3E96; margin-bottom: 14px; }
-  .card p { font-size: 16px; color: #766E80; line-height: 1.75; }
+  .program-item:hover { background: #F8F4FF; border-color: #D4C2EC; transform: translateX(8px); }
+  .program-num { font-size: 13px; color: #C4B0E0; font-weight: 700; min-width: 28px; }
+  .program-info h3 { font-size: 20px; font-weight: 700; color: #5B3E96; margin-bottom: 6px; }
+  .program-info p { font-size: 14px; color: #766E80; line-height: 1.6; }
 
-  /* IMPACT */
-  .impact-wrap { padding: 0 80px 100px; max-width: 1200px; margin: 0 auto; }
-  .impact { background: #5B3E96; border-radius: 28px; padding: 72px; }
-  .impact .section-label { color: #E8A88B; }
-  .impact .section-title { color: #fff; margin-bottom: 48px; }
+  /* ARCHIVE — 풀블리드 */
+  .archive-section {
+    background: linear-gradient(135deg, #7B5EC8 0%, #9B6EC8 40%, #D4786A 100%);
+    padding: 100px 60px;
+  }
+  .archive-inner { max-width: 1200px; margin: 0 auto; }
+  .archive-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; }
+  .archive-header .section-label { color: #E8A88B; }
+  .archive-header h2 { font-size: 38px; font-weight: 900; color: #fff; margin-top: 10px; }
+  .archive-year {
+    font-size: 160px; font-weight: 900;
+    color: rgba(255,255,255,0.07);
+    line-height: 1;
+    letter-spacing: -8px;
+    font-style: italic;
+    user-select: none;
+  }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .stat { background: rgba(255,255,255,0.09); border-radius: 16px; padding: 32px; text-align: center; }
-  .stat .num { font-size: 52px; font-weight: 900; color: #E8D4FA; margin-bottom: 10px; white-space: nowrap; }
-  .stat .num.small { font-size: 38px; }
-  .stat .label { font-size: 15px; color: #D4C2EC; line-height: 1.6; }
+  .stat { background: rgba(255,255,255,0.18); border-radius: 16px; padding: 36px 32px; text-align: center; }
+  .stat .num { font-size: 56px; font-weight: 900; color: #FFFFFF; margin-bottom: 8px; line-height: 1; }
+  .stat .num.small { font-size: 42px; }
+  .stat .unit { font-size: 18px; font-weight: 300; color: rgba(255,255,255,0.75); }
+  .stat .label { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.6; margin-top: 12px; }
 
-  /* GALLERY */
+  /* GALLERY — 비대칭 그리드 */
+  .gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+  .gallery-header h2 { font-size: 38px; font-weight: 900; color: #5B3E96; }
+  .more-btn {
+    border: 1.5px solid #5B3E96; color: #5B3E96;
+    font-size: 14px; font-weight: 700; padding: 10px 22px;
+    border-radius: 999px; text-decoration: none; transition: all 0.2s;
+  }
+  .more-btn:hover { background: #5B3E96; color: #fff; }
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-rows: auto auto;
+    gap: 16px;
   }
   .gallery-item {
-    position: relative; border-radius: 16px; overflow: hidden;
-    cursor: pointer; aspect-ratio: 3/4;
-    background: #E3D6F7;
-    transition: transform 0.25s, box-shadow 0.25s;
+    border-radius: 16px; overflow: hidden;
+    cursor: pointer; aspect-ratio: 2/3;
+    position: relative; transition: transform 0.25s, box-shadow 0.25s;
   }
-  .gallery-item:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(91,62,150,0.2); }
+  .gallery-item:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(91,62,150,0.18); }
   .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .gallery-item .placeholder {
+  .gallery-ph {
     width: 100%; height: 100%;
     display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 12px;
+    align-items: flex-start; justify-content: flex-end;
+    padding: 24px;
   }
-  .gallery-item.p1 .placeholder { background: linear-gradient(160deg, #E3D6F7, #C4AFF0); }
-  .gallery-item.p2 .placeholder { background: linear-gradient(160deg, #FDE0D8, #F5B8A8); }
-  .gallery-item.p3 .placeholder { background: linear-gradient(160deg, #D6E8F0, #A8CDD8); }
-  .placeholder-title { font-size: 20px; font-weight: 700; color: #5B3E96; text-align: center; padding: 0 16px; }
-  .placeholder-sub { font-size: 14px; color: #8A6BC8; }
-  .gallery-item .overlay {
+  .gallery-item.p1 .gallery-ph { background: linear-gradient(160deg, #7B5EC8 0%, #4A2E80 100%); }
+  .gallery-item.p2 .gallery-ph { background: linear-gradient(160deg, #C87B5E 0%, #8A4A2E 100%); }
+  .gallery-item.p3 .gallery-ph { background: linear-gradient(160deg, #5E8AC8 0%, #2E4A8A 100%); }
+  .gallery-item.p4 .gallery-ph { background: linear-gradient(160deg, #C8A05E 0%, #8A6A2E 100%); }
+  .gallery-item.p5 .gallery-ph { background: linear-gradient(160deg, #6AC87B 0%, #2E8A3A 100%); }
+  .gallery-item.p6 .gallery-ph { background: linear-gradient(160deg, #C85E8A 0%, #8A2E5A 100%); }
+  .ph-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .ph-year { font-size: 13px; color: rgba(255,255,255,0.65); }
+  .gallery-overlay {
     position: absolute; inset: 0;
-    background: rgba(91,62,150,0.75);
+    background: rgba(91,62,150,0.8);
     display: flex; align-items: center; justify-content: center;
     opacity: 0; transition: opacity 0.25s;
   }
-  .gallery-item:hover .overlay { opacity: 1; }
-  .overlay-text { color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 1px; }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay span { color: #fff; font-size: 15px; font-weight: 700; }
 
   /* MODAL */
   .modal-bg {
     display: none; position: fixed; inset: 0; z-index: 999;
-    background: rgba(20,10,40,0.85); backdrop-filter: blur(6px);
+    background: rgba(20,10,40,0.88); backdrop-filter: blur(8px);
     align-items: center; justify-content: center;
   }
   .modal-bg.open { display: flex; }
@@ -118,239 +228,389 @@
     max-width: 860px; width: 90%; max-height: 90vh; overflow-y: auto;
     position: relative;
   }
-  .modal-close {
-    position: absolute; top: 20px; right: 24px;
-    font-size: 28px; color: #766E80; cursor: pointer;
-    background: none; border: none; line-height: 1;
-  }
+  .modal-close { position: absolute; top: 20px; right: 24px; font-size: 26px; color: #aaa; cursor: pointer; background: none; border: none; }
   .modal-close:hover { color: #5B3E96; }
-  .modal-title { font-size: 28px; font-weight: 900; color: #5B3E96; margin-bottom: 8px; }
-  .modal-sub { font-size: 15px; color: #E8694A; font-weight: 600; margin-bottom: 28px; }
-  .modal-photos {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
-  }
-  .modal-photo {
-    border-radius: 12px; overflow: hidden; aspect-ratio: 4/3;
-    background: #F0EBFA;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; color: #8A6BC8;
-  }
+  .modal-title { font-size: 28px; font-weight: 900; color: #5B3E96; margin-bottom: 6px; }
+  .modal-sub { font-size: 14px; color: #E8694A; font-weight: 600; margin-bottom: 28px; }
+  .modal-photos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .modal-photo { border-radius: 12px; aspect-ratio: 4/3; background: #F0EBFA; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #8A6BC8; overflow: hidden; }
   .modal-photo img { width: 100%; height: 100%; object-fit: cover; }
-  .modal-desc { margin-top: 28px; font-size: 16px; color: #766E80; line-height: 1.8; }
+  .modal-desc { margin-top: 24px; font-size: 15px; color: #766E80; line-height: 1.8; }
 
   /* FOOTER */
-  .footer { background: #3D2A6B; color: #FBF6F3; padding: 80px; text-align: center; }
-  .footer h2 { font-size: 36px; font-weight: 900; margin-bottom: 16px; }
-  .footer p { font-size: 17px; color: #D4C2EC; margin-bottom: 32px; line-height: 1.7; }
+  .footer { background: #2A1F40; color: #FBF6F3; padding: 80px 60px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; }
+  .footer-left h2 { font-size: 34px; font-weight: 900; margin-bottom: 16px; line-height: 1.4; }
+  .footer-left p { font-size: 15px; color: #C4B0E0; line-height: 1.8; margin-bottom: 32px; }
   .footer .contact {
     display: inline-block; background: #E8694A; color: #fff;
-    font-size: 17px; font-weight: 700; padding: 16px 40px;
+    font-size: 15px; font-weight: 700; padding: 14px 36px;
     border-radius: 999px; text-decoration: none; transition: background 0.2s;
   }
   .footer .contact:hover { background: #D45A3B; }
-  .footer .small { margin-top: 40px; font-size: 13px; color: #9B8AC0; }
+  .footer-right { text-align: right; }
+  .footer-logo img { height: 32px; filter: brightness(0) invert(1) opacity(0.4); margin-bottom: 16px; }
+  .footer-small { font-size: 13px; color: #6B5E80; line-height: 1.8; }
+  .social-links { display: flex; gap: 12px; margin-top: 20px; justify-content: flex-end; }
+  .social-btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.08); color: #9B8AC0;
+    transition: background 0.2s, color 0.2s;
+    text-decoration: none;
+  }
+  .social-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
 
   /* MOBILE */
-  @media (max-width: 768px) {
-    .nav { padding: 20px 24px; }
+  @media (max-width: 900px) {
+    .nav { padding: 18px 24px; }
     .nav .menu { display: none; }
-    .nav-hamburger { display: block; }
-    .hero { padding: 60px 24px 48px; }
-    .hero h1 { font-size: 36px; }
-    .hero .subtitle { font-size: 17px; }
-    .hero-visual { margin: 40px 24px 0; height: 200px; }
-    .hero-visual span { font-size: 14px; letter-spacing: 0; }
-    .section { padding: 60px 24px; }
-    .section-title { font-size: 28px; }
-    .cards { grid-template-columns: 1fr; }
-    .impact-wrap { padding: 0 24px 60px; }
-    .impact { padding: 40px 24px; }
+    .hero { grid-template-columns: 1fr; padding: 60px 24px 40px; min-height: auto; gap: 40px; }
+    .hero-left h1 { font-size: 34px; }
+    .programs-layout { grid-template-columns: 1fr; gap: 40px; }
+    .archive-section { padding: 60px 24px; }
     .stats { grid-template-columns: 1fr; }
+    .section { padding: 60px 24px; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-    .modal { padding: 32px 20px; }
-    .modal-photos { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .footer-right { text-align: left; }
     .footer { padding: 60px 24px; }
-    .footer h2 { font-size: 26px; }
   }
 </style>
 </head>
 <body>
 
 <nav class="nav">
-  <a class="logo" href="#">마음쓰임</a>
+  <a class="logo" href="#">
+    <img src="001-B.jpg" alt="마음쓰임">
+  </a>
   <div class="menu">
     <a href="#programs">핵심 사업</a>
-    <a href="#impact">임팩트</a>
+    <a href="#archive">아카이브</a>
     <a href="#projects">프로젝트</a>
     <a href="#contact">문의</a>
   </div>
-  <button class="nav-hamburger">☰</button>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
-  <h1>외로움을 사회의 언어로,<br>회복을 예술의 방식으로</h1>
-  <p class="subtitle">마음쓰임은
-  문화예술과 자연을 통해 사람들에게 정서적 쉼을 제공합니다.</p>
-  <a href="#contact" class="hero-cta">협업 제안하기</a>
-  <div class="hero-visual">
-    <span>외로움 보관소 · 외로움 레시피 · FOR-REST CAMP</span>
+  <div class="hero-left">
+    <div class="hero-tag">Mind Tools Lab</div>
+    <h1>
+      <span class="bold">외로움과 감정</span><span class="thin">을</span><br>
+      <span class="thin">연구하며,</span><br>
+      <span class="bold">숲과 예술</span><span class="thin">로</span><br>
+      <span class="thin">관계를 잇습니다</span>
+    </h1>
+    <a href="#contact" class="hero-cta">협업 제안하기</a>
+  </div>
+  <div class="hero-right">
+    <div class="slideshow" id="slideshow">
+      <div class="slide active">
+        <div class="slide-bg"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-num">01 / 06</div>
+          <div class="slide-title">외로움 보관소</div>
+          <div class="slide-sub">2024 – 2025 · 7개 기관</div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-bg"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-num">02 / 06</div>
+          <div class="slide-title">외로움 레시피</div>
+          <div class="slide-sub">2025 · 18회차</div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-bg"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-num">03 / 06</div>
+          <div class="slide-title">FOR-REST CAMP</div>
+          <div class="slide-sub">충주 소나무숲</div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-bg"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-num">04 / 06</div>
+          <div class="slide-title">다양섬 탐험대</div>
+          <div class="slide-sub">2024</div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-bg"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-num">05 / 06</div>
+          <div class="slide-title">양안시차</div>
+          <div class="slide-sub">2021 · Tumblbug</div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-bg"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-num">06 / 06</div>
+          <div class="slide-title">서울연결처방</div>
+          <div class="slide-sub">2026</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-dots">
+      <button class="dot active" onclick="goSlide(0)"></button>
+      <button class="dot" onclick="goSlide(1)"></button>
+      <button class="dot" onclick="goSlide(2)"></button>
+      <button class="dot" onclick="goSlide(3)"></button>
+      <button class="dot" onclick="goSlide(4)"></button>
+      <button class="dot" onclick="goSlide(5)"></button>
+    </div>
   </div>
 </div>
 
+<!-- PROGRAMS -->
 <div class="section" id="programs">
-  <div class="section-label">Our Programs</div>
-  <div class="section-title">핵심 사업 & 브랜드</div>
-  <div class="section-desc">외로움을 4가지 분류(사회적 / 홀로 / 상실의 / 기타)로 구조화하고,
-  이를 콘텐츠와 프로그램으로 풀어내는 세 개의 브랜드를 운영합니다.</div>
-  <div class="cards">
-    <div class="card c1">
-      <div class="icon"></div>
-      <h3>외로움 보관소</h3>
-      <p>시민이 자신의 외로움을 꺼내어 기록하고 분류하는 경험을 제공하는 브랜드.
-      데이터 기반 연차보고서와 팝업 전시로 외로움을 사회적 언어로 시각화합니다.</p>
+  <div class="programs-layout">
+    <div class="programs-left">
+      <div class="section-label">Our Programs</div>
+      <h2>핵심 사업 & 브랜드</h2>
     </div>
-    <div class="card c2">
-      <div class="icon"></div>
-      <h3>문화예술 컨텐츠</h3>
-      <p>문화예술교육 프로그램.
-      참여자가 자신의 마음을 들여다보고 표현하는 시간을 제공합니다.</p>
-    </div>
-    <div class="card c3">
-      <div class="icon"></div>
-      <h3>FOR-REST CAMP</h3>
-      <p>다양한 지역의 숲을 배경으로
-      '숲'에서 '쉼'을 경험하는 서사를 결합한 커리큘럼을 운영합니다.</p>
+    <div class="program-list">
+      <div class="program-item">
+        <div class="program-num">01</div>
+        <div class="program-info">
+          <h3>외로움 보관소</h3>
+          <p>시민이 자신의 외로움을 꺼내어 기록하고 분류하는 경험을 제공합니다. 데이터 기반 연차보고서와 팝업 전시로 외로움을 사회적 언어로 시각화합니다.</p>
+        </div>
+      </div>
+      <div class="program-item">
+        <div class="program-num">02</div>
+        <div class="program-info">
+          <h3>외로움 레시피</h3>
+          <p>외로움을 주제로 한 브런치 기반 문화예술교육 프로그램. 참여자가 자신의 외로움을 들여다보고 표현하는 시간을 제공합니다.</p>
+        </div>
+      </div>
+      <div class="program-item">
+        <div class="program-num">03</div>
+        <div class="program-info">
+          <h3>FOR-REST CAMP</h3>
+          <p>충주 소나무숲을 배경으로 한 자연 기반 회복 페스티벌. 소나무의 상징성과 회복 서사를 결합한 커리큘럼을 운영합니다.</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="impact-wrap" id="impact">
-  <div class="impact">
-    <div class="section-label">2025 Impact</div>
-    <div class="section-title">데이터로 보는 외로움 보관소</div>
+<!-- ARCHIVE -->
+<div class="archive-section" id="archive">
+  <div class="archive-inner">
+    <div class="archive-header">
+      <div>
+        <div class="section-label">Archive</div>
+        <h2>숫자로 보는 외로움 아카이브</h2>
+      </div>
+      <div class="archive-year">2026</div>
+    </div>
     <div class="stats">
       <div class="stat">
-        <div class="num">683명</div>
-        <div class="label">외로움 보관소 참여자<br>(6개 기관 협업)</div>
+        <div class="num small">1,360<span class="unit">명</span></div>
+        <div class="label">외로움 콘텐츠<br>총 참여인원</div>
       </div>
       <div class="stat">
-        <div class="num">113명</div>
-        <div class="label">KT&G 상상플래닛 성수<br>팝업 참여자</div>
+        <div class="num small">1,176<span class="unit">명</span></div>
+        <div class="label">외로움 보관소<br>참여자</div>
       </div>
       <div class="stat">
-        <div class="num small">31명 · 18회</div>
-        <div class="label">외로움 레시피<br>참여자 · 운영 회차</div>
+        <div class="num">7<span class="unit">개</span></div>
+        <div class="label">외로움 보관소<br>설치 기관</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- PROJECTS GALLERY -->
+<!-- GALLERY -->
 <div class="section" id="projects">
-  <div class="section-label">Projects</div>
-  <div class="section-title">진행된 프로젝트</div>
-  <div class="section-desc">포스터를 클릭하면 진행 사진을 볼 수 있습니다.</div>
+  <div class="gallery-header">
+    <div>
+      <div class="section-label">Projects</div>
+      <h2>진행된 프로젝트</h2>
+    </div>
+    <a href="#" class="more-btn">더보기 +</a>
+  </div>
   <div class="gallery-grid">
-
     <div class="gallery-item p1" onclick="openModal('modal1')">
-      <!-- 실제 포스터 이미지: <img src="poster-1.jpg" alt="외로움 보관소"> -->
-      <div class="placeholder">
-        <div class="placeholder-title">외로움 보관소</div>
-        <div class="placeholder-sub">2024 – 2025</div>
+      <div class="gallery-ph">
+        <div class="ph-title">외로움 보관소</div>
+        <div class="ph-year">2024 – 2025</div>
       </div>
-      <div class="overlay"><span class="overlay-text">사진 보기 →</span></div>
+      <div class="gallery-overlay"><span>사진 보기 →</span></div>
     </div>
-
     <div class="gallery-item p2" onclick="openModal('modal2')">
-      <!-- 실제 포스터 이미지: <img src="poster-2.jpg" alt="외로움 레시피"> -->
-      <div class="placeholder">
-        <div class="placeholder-title">외로움 레시피</div>
-        <div class="placeholder-sub">2025</div>
+      <div class="gallery-ph">
+        <div class="ph-title">외로움 레시피</div>
+        <div class="ph-year">2025</div>
       </div>
-      <div class="overlay"><span class="overlay-text">사진 보기 →</span></div>
+      <div class="gallery-overlay"><span>사진 보기 →</span></div>
     </div>
-
     <div class="gallery-item p3" onclick="openModal('modal3')">
-      <!-- 실제 포스터 이미지: <img src="poster-3.jpg" alt="FOR-REST CAMP"> -->
-      <div class="placeholder">
-        <div class="placeholder-title">FOR-REST CAMP</div>
-        <div class="placeholder-sub">충주 소나무숲</div>
+      <div class="gallery-ph">
+        <div class="ph-title">FOR-REST CAMP</div>
+        <div class="ph-year">충주 소나무숲</div>
       </div>
-      <div class="overlay"><span class="overlay-text">사진 보기 →</span></div>
+      <div class="gallery-overlay"><span>사진 보기 →</span></div>
     </div>
-
+    <div class="gallery-item p4" onclick="openModal('modal4')">
+      <div class="gallery-ph">
+        <div class="ph-title">다양섬 탐험대</div>
+        <div class="ph-year">2024</div>
+      </div>
+      <div class="gallery-overlay"><span>사진 보기 →</span></div>
+    </div>
+    <div class="gallery-item p5" onclick="openModal('modal5')">
+      <div class="gallery-ph">
+        <div class="ph-title">양안시차</div>
+        <div class="ph-year">2021</div>
+      </div>
+      <div class="gallery-overlay"><span>사진 보기 →</span></div>
+    </div>
+    <div class="gallery-item p6" onclick="openModal('modal6')">
+      <div class="gallery-ph">
+        <div class="ph-title">서울연결처방</div>
+        <div class="ph-year">2026</div>
+      </div>
+      <div class="gallery-overlay"><span>사진 보기 →</span></div>
+    </div>
   </div>
 </div>
 
-<!-- MODAL 1: 외로움 보관소 -->
-<div class="modal-bg" id="modal1" onclick="closeModal(event, 'modal1')">
+<!-- MODALS -->
+<div class="modal-bg" id="modal1" onclick="closeModal(event,'modal1')">
   <div class="modal">
     <button class="modal-close" onclick="closeModalDirect('modal1')">✕</button>
     <div class="modal-title">외로움 보관소</div>
-    <div class="modal-sub">2024 – 2025 · 7개 기관 협업 · 외로움 컨텐츠 누적 참여자 1,176명</div>
+    <div class="modal-sub">2024 – 2025 · 7개 기관 · 참여자 1,176명</div>
     <div class="modal-photos">
-      <!-- 실제 사진으로 교체: <img src="boganso-1.jpg"> -->
-      <div class="modal-photo">사진 1</div>
-      <div class="modal-photo">사진 2</div>
-      <div class="modal-photo">사진 3</div>
-      <div class="modal-photo">사진 4</div>
+      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
+      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
     </div>
-    <div class="modal-desc">
-      시민들이 자신의 외로움을 꺼내어 기록하고, 분류하고, 보관하는 경험을 제공하는 브랜드입니다.
-      팝업 전시, 워크숍, 데이터 기반 연차보고서를 통해 외로움을 사회적 언어로 시각화합니다.
-    </div>
+    <div class="modal-desc">시민들이 자신의 외로움을 꺼내어 기록하고, 분류하고, 보관하는 경험을 제공하는 브랜드입니다. 팝업 전시, 워크숍, 데이터 기반 연차보고서를 통해 외로움을 사회적 언어로 시각화합니다.</div>
   </div>
 </div>
-
-<!-- MODAL 2: 외로움 레시피 -->
-<div class="modal-bg" id="modal2" onclick="closeModal(event, 'modal2')">
+<div class="modal-bg" id="modal2" onclick="closeModal(event,'modal2')">
   <div class="modal">
     <button class="modal-close" onclick="closeModalDirect('modal2')">✕</button>
     <div class="modal-title">외로움 레시피</div>
     <div class="modal-sub">2025 · 18회차 · 참여자 31명</div>
     <div class="modal-photos">
-      <div class="modal-photo">사진 1</div>
-      <div class="modal-photo">사진 2</div>
-      <div class="modal-photo">사진 3</div>
-      <div class="modal-photo">사진 4</div>
+      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
+      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
     </div>
-    <div class="modal-desc">
-      외로움을 주제로 한 문화예술교육 프로그램으로,
-      참여자들이 자신의 외로움을 들여다보고 표현하는 시간을 제공합니다.
-      2026년 서울연결처방 사업 연계로 진행 중입니다.
-    </div>
+    <div class="modal-desc">외로움을 주제로 한 브런치 기반 문화예술교육 프로그램으로, 참여자들이 자신의 외로움을 들여다보고 표현하는 시간을 제공합니다.</div>
   </div>
 </div>
-
-<!-- MODAL 3: FOR-REST CAMP -->
-<div class="modal-bg" id="modal3" onclick="closeModal(event, 'modal3')">
+<div class="modal-bg" id="modal3" onclick="closeModal(event,'modal3')">
   <div class="modal">
     <button class="modal-close" onclick="closeModalDirect('modal3')">✕</button>
     <div class="modal-title">FOR-REST CAMP</div>
     <div class="modal-sub">충주 소나무숲 · 자연 기반 회복 페스티벌</div>
     <div class="modal-photos">
-      <div class="modal-photo">사진 1</div>
-      <div class="modal-photo">사진 2</div>
-      <div class="modal-photo">사진 3</div>
-      <div class="modal-photo">사진 4</div>
+      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
+      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
     </div>
-    <div class="modal-desc">
-      숲을 배경으로 한 자연 기반 회복 컨텐츠.
-      숲에서 쉼과 감정회복 서사를 결합한 커리큘럼을 통해
-      도시에서 벗어나 정서적 쉼을 경험할 수 있는 프로그램을 제공합니다.
+    <div class="modal-desc">충주 소나무숲을 배경으로 한 자연 기반 회복 페스티벌입니다. 소나무의 상징성과 외로움 회복 서사를 결합한 커리큘럼을 운영합니다.</div>
+  </div>
+</div>
+<div class="modal-bg" id="modal4" onclick="closeModal(event,'modal4')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModalDirect('modal4')">✕</button>
+    <div class="modal-title">다양섬 탐험대</div>
+    <div class="modal-sub">2024</div>
+    <div class="modal-photos">
+      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
+      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
+    </div>
+    <div class="modal-desc">프로젝트 설명을 입력해 주세요.</div>
+  </div>
+</div>
+<div class="modal-bg" id="modal5" onclick="closeModal(event,'modal5')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModalDirect('modal5')">✕</button>
+    <div class="modal-title">양안시차</div>
+    <div class="modal-sub">2021 · Tumblbug 크라우드펀딩</div>
+    <div class="modal-photos">
+      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
+      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
+    </div>
+    <div class="modal-desc">1인가구를 대상으로 한 카드형 콘텐츠 프로젝트입니다. Tumblbug 크라우드펀딩으로 진행되었습니다.</div>
+  </div>
+</div>
+<div class="modal-bg" id="modal6" onclick="closeModal(event,'modal6')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModalDirect('modal6')">✕</button>
+    <div class="modal-title">서울연결처방</div>
+    <div class="modal-sub">2026 · 서울시 연계 프로그램</div>
+    <div class="modal-photos">
+      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
+      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
+    </div>
+    <div class="modal-desc">서울연결처방 사업 연계 프로그램으로, 외로움 레시피를 기반으로 한 문화예술 프로그램을 운영합니다.</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer" id="contact">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <h2>함께할 협업을<br>제안받습니다</h2>
+      <p>외로움 · 정서적 회복을 주제로 한 문화예술 프로그램,<br>데이터 기반 사회조사, 자연 기반 치유 콘텐츠 분야의<br>협업 및 지원사업 제안을 환영합니다.</p>
+      <a href="mailto:mindtoolslab@gmail.com" class="contact">이메일 문의하기</a>
+    </div>
+    <div class="footer-right">
+      <div class="footer-logo"><img src="001-B.jpg" alt="마음쓰임"></div>
+      <div class="footer-small">
+        © 2026 마음쓰임 주식회사<br>
+        Mind Tools Lab Co., Ltd.
+      </div>
+      <div class="social-links">
+        <a href="https://instagram.com/mindtoolslab" target="_blank" class="social-btn" aria-label="인스타그램">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"></circle>
+          </svg>
+        </a>
+        <a href="https://youtube.com/@mindtoolslab" target="_blank" class="social-btn" aria-label="유튜브">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"></path>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"></polygon>
+          </svg>
+        </a>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="footer" id="contact">
-  <h2>함께할 협업을 제안받습니다</h2>
-  <p>외로움 · 정서적 회복을 주제로 한 문화예술 프로그램, 데이터 기반 사회조사,<br>
-  자연 기반 치유 콘텐츠 분야의 협업 및 지원사업 제안을 환영합니다.</p>
-  <a href="mailto:mindtoolslab@gmail.com" class="contact">✉ 이메일 문의하기</a>
-  <div class="small">© 2026 마음쓰임 주식회사 (Maeum Sseuim Co., Ltd.)</div>
-</div>
-
 <script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+
+  function goSlide(n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+
+  setInterval(function() {
+    goSlide((current + 1) % slides.length);
+  }, 3500);
+
   function openModal(id) {
     document.getElementById(id).classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -371,6 +631,5 @@
     }
   });
 </script>
-
 </body>
 </html>
