@@ -223,6 +223,11 @@
     border-radius: 999px; font-size: 14px; font-weight: 700; color: #766E80;
     white-space: nowrap; flex-shrink: 0;
   }
+  .partner-badge-logo {
+    padding: 10px 24px; display: flex; align-items: center; justify-content: center;
+    height: 48px; box-sizing: content-box;
+  }
+  .partner-badge-logo img { max-height: 100%; max-width: 140px; object-fit: contain; }
 
   /* FAQ */
   .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 800px; }
@@ -371,9 +376,9 @@
   </a>
   <div class="menu">
     <a href="#programs">핵심 사업</a>
-    <a href="#content">콘텐츠</a>
     <a href="#projects">프로젝트</a>
     <a href="#archive">아카이브</a>
+    <a href="#content">콘텐츠</a>
     <a href="#faq">FAQ</a>
     <a href="#contact">문의</a>
   </div>
@@ -406,6 +411,36 @@
   </div>
 </div>
 
+<!-- GALLERY -->
+<div class="section" id="projects">
+  <div class="gallery-header">
+    <div>
+      <div class="section-label" id="projectsLabel">Projects</div>
+      <h2 id="projectsTitle">진행된 프로젝트</h2>
+    </div>
+    <a href="#" class="more-btn">더보기 +</a>
+  </div>
+  <div class="gallery-grid" id="galleryGrid">
+  </div>
+</div>
+
+<!-- MODALS -->
+<div id="modalsContainer"></div>
+
+<!-- ARCHIVE -->
+<div class="archive-section" id="archive">
+  <div class="archive-inner">
+    <div class="archive-header">
+      <div>
+        <div class="section-label" id="archiveLabel">Archive</div>
+        <h2 id="archiveTitle">숫자로 보는 외로움 아카이브</h2>
+      </div>
+    </div>
+    <div class="stats" id="archiveStats">
+    </div>
+  </div>
+</div>
+
 <!-- CONTENT SQUARE -->
 <div class="section" id="content">
   <div class="gallery-header">
@@ -425,44 +460,15 @@
   </div>
 </div>
 
-<!-- GALLERY -->
-<div class="section" id="projects">
-  <div class="gallery-header">
-    <div>
-      <div class="section-label" id="projectsLabel">Projects</div>
-      <h2 id="projectsTitle">진행된 프로젝트</h2>
-    </div>
-    <a href="#" class="more-btn">더보기 +</a>
-  </div>
-  <div class="gallery-grid" id="galleryGrid">
-  </div>
-</div>
-
-<!-- MODALS -->
-<div id="modalsContainer"></div>
-
 <!-- PARTNERS MARQUEE -->
 <div class="partners-section">
   <div class="partners-label">
     <div class="section-label" id="partnersLabel" style="text-align:center;">Collaborators</div>
+    <h2 id="partnersTitle" style="text-align:center;font-size:24px;font-weight:900;color:#5B3E96;margin-top:6px;"></h2>
   </div>
   <div class="marquee-track row1" id="partnersRow1">
   </div>
   <div class="marquee-track row2" id="partnersRow2">
-  </div>
-</div>
-
-<!-- ARCHIVE -->
-<div class="archive-section" id="archive">
-  <div class="archive-inner">
-    <div class="archive-header">
-      <div>
-        <div class="section-label" id="archiveLabel">Archive</div>
-        <h2 id="archiveTitle">숫자로 보는 외로움 아카이브</h2>
-      </div>
-    </div>
-    <div class="stats" id="archiveStats">
-    </div>
   </div>
 </div>
 
@@ -672,6 +678,7 @@
     document.getElementById('projectsLabel').textContent = st.projectsLabel || 'Projects';
     document.getElementById('projectsTitle').textContent = st.projectsTitle || '진행된 프로젝트';
     document.getElementById('partnersLabel').textContent = st.partnersLabel || 'Collaborators';
+    document.getElementById('partnersTitle').textContent = st.partnersTitle || '';
     document.getElementById('archiveLabel').textContent = st.archiveLabel || 'Archive';
     document.getElementById('archiveTitle').textContent = st.archiveTitle || '숫자로 보는 외로움 아카이브';
     document.getElementById('faqLabel').textContent = st.faqLabel || 'FAQ';
@@ -714,7 +721,14 @@
     // PARTNERS MARQUEE (duplicate list for seamless loop)
     function marqueeHtml(list) {
       var doubled = list.concat(list);
-      return doubled.map(function(name) { return '<span class="partner-badge">' + name + '</span>'; }).join('');
+      return doubled.map(function(item) {
+        var name = typeof item === 'string' ? item : item.name;
+        var logo = typeof item === 'string' ? '' : item.logo;
+        if (logo) {
+          return '<span class="partner-badge partner-badge-logo"><img src="' + logo + '" alt="' + name + '"></span>';
+        }
+        return '<span class="partner-badge">' + name + '</span>';
+      }).join('');
     }
     document.getElementById('partnersRow1').innerHTML = marqueeHtml(data.partnersRow1);
     document.getElementById('partnersRow2').innerHTML = marqueeHtml(data.partnersRow2);

@@ -82,6 +82,20 @@
   .add-inline input { flex: 1; }
   .add-inline button { flex-shrink: 0; }
   .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px; }
+  .title-preview {
+    background: #F7F3EF; border: 1px dashed #D4C2EC; border-radius: 10px;
+    padding: 16px 18px; margin-top: 8px; margin-bottom: 4px;
+  }
+  .title-preview-tag { font-size: 10px; color: #9B8AA8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .title-preview-label { font-size: 12px; font-weight: 700; color: #E8694A; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+  .title-preview-title { font-size: 22px; font-weight: 900; color: #5B3E96; }
+  .partner-card { display: flex; flex-direction: column; gap: 6px; }
+  .partner-logo-zone {
+    aspect-ratio: 3/2; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; padding: 6px; font-size: 11px;
+  }
+  .partner-logo-zone img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .partners-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px; }
   .photo-grid div { font-size: 11px; color: #9B8AA8; }
   .photo-grid > div[draggable="true"] { cursor: grab; }
   .photo-grid > div[draggable="true"]:active { cursor: grabbing; }
@@ -203,14 +217,15 @@
     <!-- ===== PARTNERS ===== -->
     <div class="tab-panel lockable" id="panel-partners">
       <div class="card">
+        <div class="hint" style="margin-bottom:16px;">기관명 입력 후 "추가"를 누르면 카드가 생겨요. 그 카드의 로고 영역에 이미지를 드래그해서 놓거나 클릭하면 로고가 반영돼요 (로고 없으면 이름만 뱃지로 나와요).</div>
         <h3>줄 1 (왼쪽으로 흐름)</h3>
-        <div class="chip-list" id="partnersRow1Chips"></div>
+        <div id="partnersRow1Chips"></div>
         <div class="add-inline">
           <input type="text" id="partnersRow1New" placeholder="기관명 입력">
           <button onclick="addPartner(1)">추가</button>
         </div>
         <h3 style="margin-top:24px;">줄 2 (오른쪽으로 흐름)</h3>
-        <div class="chip-list" id="partnersRow2Chips"></div>
+        <div id="partnersRow2Chips"></div>
         <div class="add-inline">
           <input type="text" id="partnersRow2New" placeholder="기관명 입력">
           <button onclick="addPartner(2)">추가</button>
@@ -245,12 +260,17 @@
     <div class="tab-panel lockable" id="panel-titles">
       <div class="card">
         <h2>섹션 대제목 / 라벨</h2>
-        <div class="hint" style="margin-bottom:16px;">각 섹션 상단의 작은 영문 라벨과 큰 제목을 여기서 바꿀 수 있어요.</div>
+        <div class="hint" style="margin-bottom:16px;">각 섹션 상단의 작은 영문 라벨과 큰 제목을 여기서 바꿀 수 있어요. 아래 점선 박스가 실제 사이트에 보이는 모습이에요 — 입력하는 대로 바로 바뀌어요.<br>참고: 위쪽의 관리자 화면 탭 이름(마음쓰임 이야기, 핵심 사업 등)은 여기서 뭘 바꿔도 그대로예요 — 그건 이 관리자 화면 안에서만 쓰는 이름이라 실제 사이트와는 상관없어요.</div>
 
         <h3>핵심 사업 섹션</h3>
         <div class="row">
           <div><label>라벨</label><input type="text" id="titleProgramsLabel"></div>
           <div><label>대제목</label><input type="text" id="titleProgramsTitle"></div>
+        </div>
+        <div class="title-preview">
+          <div class="title-preview-tag">실제 사이트 미리보기</div>
+          <div class="title-preview-label" id="previewProgramsLabel"></div>
+          <div class="title-preview-title" id="previewProgramsTitle"></div>
         </div>
 
         <h3 style="margin-top:20px;">마음쓰임 이야기 섹션</h3>
@@ -258,26 +278,54 @@
           <div><label>라벨</label><input type="text" id="titleContentLabel"></div>
           <div><label>대제목</label><input type="text" id="titleContentTitle"></div>
         </div>
+        <div class="title-preview">
+          <div class="title-preview-tag">실제 사이트 미리보기</div>
+          <div class="title-preview-label" id="previewContentLabel"></div>
+          <div class="title-preview-title" id="previewContentTitle"></div>
+        </div>
 
         <h3 style="margin-top:20px;">프로젝트 갤러리 섹션</h3>
         <div class="row">
           <div><label>라벨</label><input type="text" id="titleProjectsLabel"></div>
           <div><label>대제목</label><input type="text" id="titleProjectsTitle"></div>
         </div>
+        <div class="title-preview">
+          <div class="title-preview-tag">실제 사이트 미리보기</div>
+          <div class="title-preview-label" id="previewProjectsLabel"></div>
+          <div class="title-preview-title" id="previewProjectsTitle"></div>
+        </div>
 
         <h3 style="margin-top:20px;">협력기관 섹션</h3>
-        <label>라벨</label><input type="text" id="titlePartnersLabel">
+        <div class="row">
+          <div><label>라벨</label><input type="text" id="titlePartnersLabel"></div>
+          <div><label>대제목 (선택)</label><input type="text" id="titlePartnersTitle"></div>
+        </div>
+        <div class="title-preview">
+          <div class="title-preview-tag">실제 사이트 미리보기</div>
+          <div class="title-preview-label" id="previewPartnersLabel" style="text-align:center;"></div>
+          <div class="title-preview-title" id="previewPartnersTitle" style="text-align:center;font-size:18px;"></div>
+        </div>
 
         <h3 style="margin-top:20px;">아카이브 섹션</h3>
         <div class="row">
           <div><label>라벨</label><input type="text" id="titleArchiveLabel"></div>
           <div><label>대제목</label><input type="text" id="titleArchiveTitle"></div>
         </div>
+        <div class="title-preview" style="background:#5B3E96;">
+          <div class="title-preview-tag" style="color:#D8C4EE;">실제 사이트 미리보기</div>
+          <div class="title-preview-label" id="previewArchiveLabel" style="color:#E8A88B;"></div>
+          <div class="title-preview-title" id="previewArchiveTitle" style="color:#fff;"></div>
+        </div>
 
         <h3 style="margin-top:20px;">FAQ 섹션</h3>
         <div class="row">
           <div><label>라벨</label><input type="text" id="titleFaqLabel"></div>
           <div><label>대제목</label><input type="text" id="titleFaqTitle"></div>
+        </div>
+        <div class="title-preview">
+          <div class="title-preview-tag">실제 사이트 미리보기</div>
+          <div class="title-preview-label" id="previewFaqLabel"></div>
+          <div class="title-preview-title" id="previewFaqTitle"></div>
         </div>
 
         <button class="wide" onclick="saveSite('titles')">섹션 제목 저장</button>
@@ -607,7 +655,7 @@
     programsLabel: 'Our Programs', programsTitle: '핵심 사업 & 브랜드',
     contentLabel: 'Mindtoolslab Contents', contentTitle: '마음쓰임 이야기',
     projectsLabel: 'Projects', projectsTitle: '진행된 프로젝트',
-    partnersLabel: 'Collaborators',
+    partnersLabel: 'Collaborators', partnersTitle: '',
     archiveLabel: 'Archive', archiveTitle: '숫자로 보는 외로움 아카이브',
     faqLabel: 'FAQ', faqTitle: '자주 묻는 질문'
   };
@@ -633,14 +681,48 @@
     document.getElementById('titleProjectsLabel').value = t.projectsLabel || DEFAULT_TITLES.projectsLabel;
     document.getElementById('titleProjectsTitle').value = t.projectsTitle || DEFAULT_TITLES.projectsTitle;
     document.getElementById('titlePartnersLabel').value = t.partnersLabel || DEFAULT_TITLES.partnersLabel;
+    document.getElementById('titlePartnersTitle').value = t.partnersTitle || DEFAULT_TITLES.partnersTitle;
     document.getElementById('titleArchiveLabel').value = t.archiveLabel || DEFAULT_TITLES.archiveLabel;
     document.getElementById('titleArchiveTitle').value = t.archiveTitle || DEFAULT_TITLES.archiveTitle;
     document.getElementById('titleFaqLabel').value = t.faqLabel || DEFAULT_TITLES.faqLabel;
     document.getElementById('titleFaqTitle').value = t.faqTitle || DEFAULT_TITLES.faqTitle;
 
+    updateAllTitlePreviews();
+    wireTitlePreviewInputs();
+
     document.getElementById('footerTitleHtml').value = s.footer.titleHtml;
     document.getElementById('footerDescHtml').value = s.footer.descHtml;
     document.getElementById('footerEmail').value = s.footer.email;
+  }
+
+  var TITLE_PREVIEW_MAP = [
+    ['titleProgramsLabel', 'previewProgramsLabel'], ['titleProgramsTitle', 'previewProgramsTitle'],
+    ['titleContentLabel', 'previewContentLabel'], ['titleContentTitle', 'previewContentTitle'],
+    ['titleProjectsLabel', 'previewProjectsLabel'], ['titleProjectsTitle', 'previewProjectsTitle'],
+    ['titlePartnersLabel', 'previewPartnersLabel'], ['titlePartnersTitle', 'previewPartnersTitle'],
+    ['titleArchiveLabel', 'previewArchiveLabel'], ['titleArchiveTitle', 'previewArchiveTitle'],
+    ['titleFaqLabel', 'previewFaqLabel'], ['titleFaqTitle', 'previewFaqTitle']
+  ];
+
+  function updateAllTitlePreviews() {
+    TITLE_PREVIEW_MAP.forEach(function(pair) {
+      var input = document.getElementById(pair[0]);
+      var preview = document.getElementById(pair[1]);
+      if (input && preview) preview.textContent = input.value;
+    });
+  }
+
+  var titlePreviewWired = false;
+  function wireTitlePreviewInputs() {
+    if (titlePreviewWired) return;
+    titlePreviewWired = true;
+    TITLE_PREVIEW_MAP.forEach(function(pair) {
+      var input = document.getElementById(pair[0]);
+      var preview = document.getElementById(pair[1]);
+      if (input && preview) {
+        input.addEventListener('input', function() { preview.textContent = input.value; });
+      }
+    });
   }
 
   function collectSectionTitles() {
@@ -652,6 +734,7 @@
       projectsLabel: document.getElementById('titleProjectsLabel').value,
       projectsTitle: document.getElementById('titleProjectsTitle').value,
       partnersLabel: document.getElementById('titlePartnersLabel').value,
+      partnersTitle: document.getElementById('titlePartnersTitle').value,
       archiveLabel: document.getElementById('titleArchiveLabel').value,
       archiveTitle: document.getElementById('titleArchiveTitle').value,
       faqLabel: document.getElementById('titleFaqLabel').value,
@@ -810,19 +893,58 @@
   }
 
   /* ---- Partners ---- */
+  function normalizePartnerList(arr) {
+    return (arr || []).map(function(item) {
+      return typeof item === 'string' ? { name: item, logo: '' } : item;
+    });
+  }
+
   function renderPartners() {
     ['1', '2'].forEach(function(n) {
+      state.site['partnersRow' + n] = normalizePartnerList(state.site['partnersRow' + n]);
       var arr = state.site['partnersRow' + n];
-      document.getElementById('partnersRow' + n + 'Chips').innerHTML = arr.map(function(name, i) {
-        return '<span class="chip">' + escHtml(name) + '<button class="secondary" onclick="removePartner(' + n + ',' + i + ')">✕</button></span>';
-      }).join('');
+      document.getElementById('partnersRow' + n + 'Chips').innerHTML =
+        '<div class="partners-grid">' + arr.map(function(p, i) {
+          return '<div class="partner-card">' +
+            '<div class="dropzone partner-logo-zone" id="partnerLogoZone-' + n + '-' + i + '">' +
+            (p.logo ? '<img src="' + p.logo + '" alt="">' : '로고를 여기로 끌어다 놓거나 클릭') +
+            '<input type="file" accept="image/*" id="partnerLogoInput-' + n + '-' + i + '"></div>' +
+            '<input type="text" value="' + escAttr(p.name) + '" data-partner-row="' + n + '" data-partner-idx="' + i + '" style="font-size:12px;padding:6px 8px;">' +
+            '<button class="secondary" style="font-size:10px;padding:3px 6px;" onclick="removePartner(' + n + ',' + i + ')">삭제</button>' +
+            '</div>';
+        }).join('') + '</div>';
+    });
+
+    document.querySelectorAll('[data-partner-row]').forEach(function(input) {
+      input.addEventListener('input', function() {
+        var row = input.dataset.partnerRow, idx = parseInt(input.dataset.partnerIdx, 10);
+        state.site['partnersRow' + row][idx].name = input.value;
+      });
+    });
+
+    ['1', '2'].forEach(function(n) {
+      state.site['partnersRow' + n].forEach(function(p, i) {
+        var zone = document.getElementById('partnerLogoZone-' + n + '-' + i);
+        var input = document.getElementById('partnerLogoInput-' + n + '-' + i);
+        if (!zone || !input) return;
+        wireDropzone(zone, input, function(files) {
+          showStatus('partnersStatus', 'loading', '로고 업로드 중...');
+          uploadImage(files[0], 'partner-' + n + '-' + i)
+            .then(function(url) {
+              state.site['partnersRow' + n][i].logo = url;
+              renderPartners();
+              showStatus('partnersStatus', 'ok', '로고가 반영되었습니다. "협력기관 저장" 버튼을 눌러 GitHub에 반영하세요.');
+            })
+            .catch(function(err) { showStatus('partnersStatus', 'err', err.message); });
+        });
+      });
     });
   }
   function addPartner(row) {
     var input = document.getElementById('partnersRow' + row + 'New');
     var val = input.value.trim();
     if (!val) return;
-    state.site['partnersRow' + row].push(val);
+    state.site['partnersRow' + row].push({ name: val, logo: '' });
     input.value = '';
     renderPartners();
   }
