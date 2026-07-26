@@ -1,0 +1,56 @@
+[
+  {
+    "id": "story-1",
+    "category": "story",
+    "categoryLabel": "외로움 이야기",
+    "title": "외로움을 기록한다는 것 — 성수동 팝업에서 만난 얼굴들",
+    "date": "2025.11",
+    "image": "",
+    "colorClass": "k1"
+  },
+  {
+    "id": "field-1",
+    "category": "field",
+    "categoryLabel": "현장 리포트",
+    "title": "충주 소나무숲에서 3박 4일, FOR-REST CAMP 현장 기록",
+    "date": "2025.08",
+    "image": "",
+    "colorClass": "k2"
+  },
+  {
+    "id": "interview-1",
+    "category": "interview",
+    "categoryLabel": "인터뷰",
+    "title": "18회차를 함께한 사람들, 외로움 레시피 참여자 인터뷰",
+    "date": "2025.06",
+    "image": "",
+    "colorClass": "k3"
+  },
+  {
+    "id": "story-2",
+    "category": "story",
+    "categoryLabel": "외로움 이야기",
+    "title": "서울연결처방, 광진구에서 시작된 사회적 연결의 실험",
+    "date": "2026.02",
+    "image": "",
+    "colorClass": "k4"
+  },
+  {
+    "id": "field-2",
+    "category": "field",
+    "categoryLabel": "현장 리포트",
+    "title": "다양섬 탐험대, 문화다양성주간 참여형 프로그램 운영 후기",
+    "date": "2024.10",
+    "image": "",
+    "colorClass": "k5"
+  },
+  {
+    "id": "interview-2",
+    "category": "interview",
+    "categoryLabel": "인터뷰",
+    "title": "1인가구의 마음, 양안시차 제품을 만든 이유",
+    "date": "2021.05",
+    "image": "",
+    "colorClass": "k6"
+  }
+]

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마음쓰임 콘텐츠 관리자</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Noto Sans KR', sans-serif;
+    background: #F7F3EF; color: #2A1F40; margin: 0; padding: 40px 20px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 26px; font-weight: 900; color: #5B3E96; margin-bottom: 6px; }
+  .sub { color: #766E80; font-size: 14px; margin-bottom: 32px; }
+  .card {
+    background: #fff; border: 1px solid #EFE6E0; border-radius: 16px;
+    padding: 28px; margin-bottom: 24px;
+  }
+  .card h2 { font-size: 17px; font-weight: 800; margin: 0 0 18px; color: #2A1F40; }
+  label { display: block; font-size: 13px; font-weight: 700; color: #5B3E96; margin-bottom: 6px; margin-top: 16px; }
+  label:first-of-type { margin-top: 0; }
+  input[type=text], input[type=password], input[type=date], select {
+    width: 100%; padding: 11px 14px; border: 1.5px solid #EFE6E0; border-radius: 10px;
+    font-size: 14px; font-family: inherit; color: #2A1F40; background: #FBF9F7;
+  }
+  input[type=file] { width: 100%; padding: 10px 0; font-size: 13px; }
+  input:focus, select:focus { outline: none; border-color: #5B3E96; }
+  .row { display: flex; gap: 12px; }
+  .row > div { flex: 1; }
+  button {
+    margin-top: 22px; width: 100%; padding: 14px; border: none; border-radius: 10px;
+    background: #5B3E96; color: #fff; font-size: 15px; font-weight: 700;
+    cursor: pointer; font-family: inherit; transition: opacity 0.2s;
+  }
+  button:hover { opacity: 0.9; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  button.secondary { background: #fff; color: #C8694A; border: 1.5px solid #E8C4B5; }
+  .hint { font-size: 12px; color: #9B8AA8; margin-top: 6px; line-height: 1.6; }
+  .status { margin-top: 14px; font-size: 13px; padding: 12px 14px; border-radius: 10px; display: none; }
+  .status.ok { display: block; background: #EAF6EC; color: #2E7D4F; }
+  .status.err { display: block; background: #FCEBEA; color: #C0392B; }
+  .status.loading { display: block; background: #F0EBFA; color: #5B3E96; }
+  .item-list { display: flex; flex-direction: column; gap: 10px; }
+  .item-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; border: 1px solid #EFE6E0; border-radius: 10px; background: #FBF9F7;
+  }
+  .item-row .meta { font-size: 13px; }
+  .item-row .meta .tag { color: #E8694A; font-weight: 700; font-size: 11px; margin-right: 8px; }
+  .item-row .meta .date { color: #9B8AA8; font-size: 11px; margin-left: 8px; }
+  .item-row button { width: auto; margin: 0; padding: 6px 14px; font-size: 12px; }
+  .locked .card:not(.setup-card) { opacity: 0.4; pointer-events: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>마음쓰임 콘텐츠 관리자</h1>
+  <div class="sub">"마음쓰임 이야기" 섹션에 새 글/사진을 올리고 관리합니다.</div>
+
+  <div class="card setup-card">
+    <h2>1. GitHub 연결</h2>
+    <label>GitHub 저장소 (owner/repo)</label>
+    <input type="text" id="repoInput" placeholder="mindtoolslab/mindtools" value="mindtoolslab/mindtools">
+    <label>브랜치</label>
+    <input type="text" id="branchInput" placeholder="main" value="main">
+    <label>Personal Access Token</label>
+    <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx">
+    <div class="hint">
+      GitHub → 설정(Settings) → Developer settings → Personal access tokens → Fine-grained tokens 에서 발급받으세요.<br>
+      해당 저장소(mindtools)에 대해 <b>Contents: Read and write</b> 권한만 주면 됩니다.<br>
+      이 토큰은 도연 님 브라우저에만 저장되며(localStorage), 어디로도 전송되지 않습니다 — GitHub API에 직접 요청할 때만 사용됩니다.
+    </div>
+    <button onclick="connect()">연결하기</button>
+    <div id="connectStatus" class="status"></div>
+  </div>
+
+  <div id="mainArea" class="locked">
+    <div class="card">
+      <h2>2. 새 글 작성</h2>
+      <label>카테고리</label>
+      <select id="catSelect">
+        <option value="story">외로움 이야기</option>
+        <option value="field">현장 리포트</option>
+        <option value="interview">인터뷰</option>
+      </select>
+      <label>제목</label>
+      <input type="text" id="titleInput" placeholder="글 제목을 입력하세요">
+      <div class="row">
+        <div>
+          <label>날짜</label>
+          <input type="text" id="dateInput" placeholder="2026.07">
+        </div>
+        <div>
+          <label>사진 (선택)</label>
+          <input type="file" id="imageInput" accept="image/*">
+        </div>
+      </div>
+      <button onclick="submitPost()" id="submitBtn">저장하고 GitHub에 반영</button>
+      <div id="postStatus" class="status"></div>
+    </div>
+
+    <div class="card">
+      <h2>3. 기존 글 목록</h2>
+      <div class="item-list" id="itemList">
+        <div class="hint">불러오는 중...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var state = { owner: '', repo: '', branch: 'main', token: '', sha: null, items: [] };
+
+  window.addEventListener('DOMContentLoaded', function() {
+    var saved = localStorage.getItem('mindtools_admin_config');
+    if (saved) {
+      try {
+        var cfg = JSON.parse(saved);
+        document.getElementById('repoInput').value = cfg.repo || 'mindtoolslab/mindtools';
+        document.getElementById('branchInput').value = cfg.branch || 'main';
+        document.getElementById('tokenInput').value = cfg.token || '';
+        if (cfg.token) connect();
+      } catch (e) {}
+    }
+  });
+
+  function showStatus(id, type, msg) {
+    var el = document.getElementById(id);
+    el.className = 'status ' + type;
+    el.textContent = msg;
+  }
+
+  function ghHeaders() {
+    return {
+      'Authorization': 'Bearer ' + state.token,
+      'Accept': 'application/vnd.github+json'
+    };
+  }
+
+  function connect() {
+    var repoVal = document.getElementById('repoInput').value.trim();
+    var branch = document.getElementById('branchInput').value.trim() || 'main';
+    var token = document.getElementById('tokenInput').value.trim();
+    if (!repoVal.includes('/') || !token) {
+      showStatus('connectStatus', 'err', '저장소(owner/repo)와 토큰을 모두 입력해주세요.');
+      return;
+    }
+    var parts = repoVal.split('/');
+    state.owner = parts[0]; state.repo = parts[1]; state.branch = branch; state.token = token;
+
+    showStatus('connectStatus', 'loading', '연결 확인 중...');
+    fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo, { headers: ghHeaders() })
+      .then(function(res) {
+        if (!res.ok) throw new Error('저장소 접근 실패 (권한 또는 토큰을 확인하세요, status ' + res.status + ')');
+        return res.json();
+      })
+      .then(function() {
+        localStorage.setItem('mindtools_admin_config', JSON.stringify({ repo: repoVal, branch: branch, token: token }));
+        showStatus('connectStatus', 'ok', '연결되었습니다: ' + repoVal);
+        document.getElementById('mainArea').classList.remove('locked');
+        loadContentJson();
+      })
+      .catch(function(err) {
+        showStatus('connectStatus', 'err', err.message);
+      });
+  }
+
+  function loadContentJson() {
+    document.getElementById('itemList').innerHTML = '<div class="hint">불러오는 중...</div>';
+    fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/content.json?ref=' + state.branch, { headers: ghHeaders() })
+      .then(function(res) {
+        if (!res.ok) throw new Error('content.json을 찾을 수 없습니다 (status ' + res.status + ')');
+        return res.json();
+      })
+      .then(function(data) {
+        state.sha = data.sha;
+        var decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+        state.items = JSON.parse(decoded);
+        renderItemList();
+      })
+      .catch(function(err) {
+        document.getElementById('itemList').innerHTML = '<div class="hint">' + err.message + '</div>';
+      });
+  }
+
+  function renderItemList() {
+    var catLabels = { story: '외로움 이야기', field: '현장 리포트', interview: '인터뷰' };
+    var list = document.getElementById('itemList');
+    if (!state.items.length) {
+      list.innerHTML = '<div class="hint">아직 등록된 글이 없습니다.</div>';
+      return;
+    }
+    var sorted = state.items.slice().sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
+    list.innerHTML = sorted.map(function(item) {
+      return '<div class="item-row">' +
+        '<div class="meta"><span class="tag">' + (item.categoryLabel || catLabels[item.category] || '') + '</span>' +
+        item.title + '<span class="date">' + item.date + '</span></div>' +
+        '<button class="secondary" onclick="deleteItem(\'' + item.id + '\')">삭제</button>' +
+        '</div>';
+    }).join('');
+  }
+
+  function fileToBase64(file) {
+    return new Promise(function(resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function() { resolve(reader.result.split(',')[1]); };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function b64EncodeUnicode(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+
+  function submitPost() {
+    var category = document.getElementById('catSelect').value;
+    var catLabels = { story: '외로움 이야기', field: '현장 리포트', interview: '인터뷰' };
+    var title = document.getElementById('titleInput').value.trim();
+    var date = document.getElementById('dateInput').value.trim();
+    var fileInput = document.getElementById('imageInput');
+    var file = fileInput.files[0];
+
+    if (!title || !date) {
+      showStatus('postStatus', 'err', '제목과 날짜를 입력해주세요.');
+      return;
+    }
+
+    var btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    showStatus('postStatus', 'loading', '저장하는 중...');
+
+    var newItem = {
+      id: category + '-' + Date.now(),
+      category: category,
+      categoryLabel: catLabels[category],
+      title: title,
+      date: date,
+      image: '',
+      colorClass: 'k' + (((state.items.length) % 6) + 1)
+    };
+
+    var imageStep = Promise.resolve();
+    if (file) {
+      imageStep = fileToBase64(file).then(function(b64) {
+        var ext = file.name.split('.').pop();
+        var path = 'images/' + newItem.id + '.' + ext;
+        return fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/' + path, {
+          method: 'PUT',
+          headers: ghHeaders(),
+          body: JSON.stringify({
+            message: '이미지 추가: ' + title,
+            content: b64,
+            branch: state.branch
+          })
+        }).then(function(res) {
+          if (!res.ok) throw new Error('이미지 업로드 실패 (status ' + res.status + ')');
+          return res.json();
+        }).then(function(data) {
+          newItem.image = data.content.download_url;
+        });
+      });
+    }
+
+    imageStep.then(function() {
+      var updated = state.items.concat([newItem]);
+      var content = JSON.stringify(updated, null, 2);
+      return fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/content.json', {
+        method: 'PUT',
+        headers: ghHeaders(),
+        body: JSON.stringify({
+          message: '새 글 추가: ' + title,
+          content: b64EncodeUnicode(content),
+          sha: state.sha,
+          branch: state.branch
+        })
+      }).then(function(res) {
+        if (!res.ok) throw new Error('content.json 업데이트 실패 (status ' + res.status + ')');
+        return res.json();
+      });
+    }).then(function(data) {
+      state.sha = data.content.sha;
+      state.items.push(newItem);
+      renderItemList();
+      showStatus('postStatus', 'ok', '저장되었습니다! 잠시 후 사이트에 반영됩니다.');
+      document.getElementById('titleInput').value = '';
+      document.getElementById('dateInput').value = '';
+      fileInput.value = '';
+    }).catch(function(err) {
+      showStatus('postStatus', 'err', err.message);
+    }).finally(function() {
+      btn.disabled = false;
+    });
+  }
+
+  function deleteItem(id) {
+    if (!confirm('이 글을 삭제할까요?')) return;
+    var updated = state.items.filter(function(i) { return i.id !== id; });
+    var content = JSON.stringify(updated, null, 2);
+    fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/content.json', {
+      method: 'PUT',
+      headers: ghHeaders(),
+      body: JSON.stringify({
+        message: '글 삭제: ' + id,
+        content: b64EncodeUnicode(content),
+        sha: state.sha,
+        branch: state.branch
+      })
+    }).then(function(res) {
+      if (!res.ok) throw new Error('삭제 실패 (status ' + res.status + ')');
+      return res.json();
+    }).then(function(data) {
+      state.sha = data.content.sha;
+      state.items = updated;
+      renderItemList();
+    }).catch(function(err) {
+      alert(err.message);
+    });
+  }
+</script>
+</body>
+</html>

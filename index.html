@@ -147,6 +147,90 @@
   .program-info h3 { font-size: 20px; font-weight: 700; color: #5B3E96; margin-bottom: 6px; }
   .program-info p { font-size: 14px; color: #766E80; line-height: 1.6; }
 
+  /* PROGRAM CARDS — 밑미 스타일 카드형 프로그램 */
+  .program-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .program-card {
+    background: #fff; border-radius: 20px; overflow: hidden;
+    border: 1px solid #EFE6E0; transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .program-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(91,62,150,0.15); }
+  .program-card-img {
+    aspect-ratio: 4/3; display: flex; align-items: flex-end;
+    padding: 20px; position: relative;
+  }
+  .program-card.c1 .program-card-img { background: linear-gradient(160deg, #7B5EC8 0%, #4A2E80 100%); }
+  .program-card.c2 .program-card-img { background: linear-gradient(160deg, #C87B5E 0%, #8A4A2E 100%); }
+  .program-card.c3 .program-card-img { background: linear-gradient(160deg, #5E8AC8 0%, #2E4A8A 100%); }
+  .program-card-tag {
+    position: absolute; top: 20px; left: 20px;
+    font-size: 12px; font-weight: 700; color: #fff;
+    background: rgba(255,255,255,0.22); padding: 5px 14px; border-radius: 999px;
+  }
+  .program-card-body { padding: 24px; }
+  .program-card-body h3 { font-size: 19px; font-weight: 700; color: #2A1F40; margin-bottom: 10px; }
+  .program-card-body p { font-size: 14px; color: #766E80; line-height: 1.7; margin-bottom: 18px; }
+  .program-card-cta { font-size: 14px; font-weight: 700; color: #5B3E96; text-decoration: none; }
+  .program-card-cta:hover { text-decoration: underline; }
+
+  /* CONTENT SQUARE — 밑미 콘텐츠 스퀘어 스타일 */
+  .content-tabs { display: flex; gap: 10px; margin-bottom: 36px; flex-wrap: wrap; }
+  .content-tab {
+    padding: 9px 22px; border-radius: 999px; border: 1.5px solid #D4C2EC;
+    background: #fff; color: #5B3E96; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; font-family: inherit;
+  }
+  .content-tab:hover { background: #F0EBFA; }
+  .content-tab.active { background: #5B3E96; color: #fff; border-color: #5B3E96; }
+  .content-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .content-card {
+    background: #fff; border-radius: 16px; overflow: hidden;
+    border: 1px solid #EFE6E0; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .content-card.hidden { display: none; }
+  .content-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(91,62,150,0.12); }
+  .content-card-img {
+    aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 600;
+  }
+  .content-card.k1 .content-card-img { background: linear-gradient(135deg, #8A6BC8, #5B3E96); }
+  .content-card.k2 .content-card-img { background: linear-gradient(135deg, #E8A88B, #C8694A); }
+  .content-card.k3 .content-card-img { background: linear-gradient(135deg, #6B4FA0, #3D2A6B); }
+  .content-card.k4 .content-card-img { background: linear-gradient(135deg, #C8A0E8, #8A6BC8); }
+  .content-card.k5 .content-card-img { background: linear-gradient(135deg, #E8694A, #8A4A2E); }
+  .content-card.k6 .content-card-img { background: linear-gradient(135deg, #5E8AC8, #2E4A8A); }
+  .content-card-body { padding: 22px; }
+  .content-cat { font-size: 12px; font-weight: 700; color: #E8694A; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .content-card-body h4 { font-size: 16px; font-weight: 700; color: #2A1F40; line-height: 1.55; margin-bottom: 12px; }
+  .content-date { font-size: 12px; color: #9B8AA8; }
+
+  /* PARTNER MARQUEE — 교차 스크롤 로고 */
+  .partners-section { padding: 70px 0; overflow: hidden; }
+  .partners-label { text-align: center; margin-bottom: 32px; }
+  .marquee-track { display: flex; gap: 20px; width: max-content; }
+  .marquee-track.row1 { animation: marqueeLeft 32s linear infinite; margin-bottom: 20px; }
+  .marquee-track.row2 { animation: marqueeRight 32s linear infinite; }
+  @keyframes marqueeLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes marqueeRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .partner-badge {
+    padding: 13px 30px; background: #fff; border: 1px solid #EFE6E0;
+    border-radius: 999px; font-size: 14px; font-weight: 700; color: #766E80;
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 800px; }
+  .faq-item { border: 1px solid #EFE6E0; border-radius: 16px; background: #fff; overflow: hidden; }
+  .faq-question {
+    padding: 22px 28px; display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; font-size: 16px; font-weight: 700; color: #2A1F40;
+  }
+  .faq-icon { font-size: 22px; color: #5B3E96; transition: transform 0.25s; flex-shrink: 0; margin-left: 20px; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 28px; }
+  .faq-item.open .faq-answer { max-height: 300px; padding-bottom: 24px; }
+  .faq-answer p { font-size: 14px; color: #766E80; line-height: 1.85; }
+
   /* ARCHIVE — 풀블리드 */
   .archive-section {
     background: linear-gradient(135deg, #7B5EC8 0%, #9B6EC8 40%, #D4786A 100%);
@@ -268,6 +352,8 @@
     .hero { grid-template-columns: 1fr; padding: 60px 24px 40px; min-height: auto; gap: 40px; }
     .hero-left h1 { font-size: 34px; }
     .programs-layout { grid-template-columns: 1fr; gap: 40px; }
+    .program-grid { grid-template-columns: 1fr; }
+    .content-grid { grid-template-columns: 1fr; }
     .archive-section { padding: 60px 24px; }
     .stats { grid-template-columns: 1fr; }
     .section { padding: 60px 24px; }
@@ -286,8 +372,10 @@
   </a>
   <div class="menu">
     <a href="#programs">핵심 사업</a>
+    <a href="#content">콘텐츠</a>
     <a href="#archive">아카이브</a>
     <a href="#projects">프로젝트</a>
+    <a href="#faq">FAQ</a>
     <a href="#contact">문의</a>
   </div>
 </nav>
@@ -312,7 +400,7 @@
         <div class="slide-content">
           <div class="slide-num">01 / 06</div>
           <div class="slide-title">외로움 보관소</div>
-          <div class="slide-sub">2024 – 2025 · 7개 기관</div>
+          <div class="slide-sub">2024 – 2025 · 15개 기관</div>
         </div>
       </div>
       <div class="slide">
@@ -379,29 +467,90 @@
       <div class="section-label">Our Programs</div>
       <h2>핵심 사업 & 브랜드</h2>
     </div>
-    <div class="program-list">
-      <div class="program-item">
-        <div class="program-num">01</div>
-        <div class="program-info">
+    <div class="program-grid">
+      <div class="program-card c1">
+        <div class="program-card-img"><span class="program-card-tag">커뮤니티 프로그램</span></div>
+        <div class="program-card-body">
           <h3>외로움 보관소</h3>
           <p>시민이 자신의 외로움을 꺼내어 기록하고 분류하는 경험을 제공합니다. 데이터 기반 연차보고서와 팝업 전시로 외로움을 사회적 언어로 시각화합니다.</p>
+          <a href="#" class="program-card-cta" onclick="openModal('modal1'); return false;">자세히 보기 →</a>
         </div>
       </div>
-      <div class="program-item">
-        <div class="program-num">02</div>
-        <div class="program-info">
+      <div class="program-card c2">
+        <div class="program-card-img"><span class="program-card-tag">문화예술교육</span></div>
+        <div class="program-card-body">
           <h3>외로움 레시피</h3>
           <p>외로움을 주제로 한 브런치 기반 문화예술교육 프로그램. 참여자가 자신의 외로움을 들여다보고 표현하는 시간을 제공합니다.</p>
+          <a href="#" class="program-card-cta" onclick="openModal('modal2'); return false;">자세히 보기 →</a>
         </div>
       </div>
-      <div class="program-item">
-        <div class="program-num">03</div>
-        <div class="program-info">
+      <div class="program-card c3">
+        <div class="program-card-img"><span class="program-card-tag">자연 치유 프로그램</span></div>
+        <div class="program-card-body">
           <h3>FOR-REST CAMP</h3>
           <p>충주 소나무숲을 배경으로 한 자연 기반 회복 페스티벌. 소나무의 상징성과 회복 서사를 결합한 커리큘럼을 운영합니다.</p>
+          <a href="#" class="program-card-cta" onclick="openModal('modal3'); return false;">자세히 보기 →</a>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- CONTENT SQUARE -->
+<div class="section" id="content">
+  <div class="gallery-header">
+    <div>
+      <div class="section-label">Mindtoolslab Contents</div>
+      <h2>마음쓰임 이야기</h2>
+    </div>
+  </div>
+  <div class="content-tabs">
+    <button class="content-tab active" data-filter="all" onclick="filterContent('all', this)">전체</button>
+    <button class="content-tab" data-filter="story" onclick="filterContent('story', this)">외로움 이야기</button>
+    <button class="content-tab" data-filter="field" onclick="filterContent('field', this)">현장 리포트</button>
+    <button class="content-tab" data-filter="interview" onclick="filterContent('interview', this)">인터뷰</button>
+  </div>
+  <div class="content-grid" id="contentGrid">
+    <div class="content-loading" style="grid-column:1/-1;text-align:center;color:#9B8AA8;padding:40px 0;">콘텐츠를 불러오는 중...</div>
+  </div>
+</div>
+
+<!-- PARTNERS MARQUEE -->
+<div class="partners-section">
+  <div class="partners-label">
+    <div class="section-label" style="text-align:center;">Collaborators</div>
+  </div>
+  <div class="marquee-track row1">
+    <span class="partner-badge">서울시</span>
+    <span class="partner-badge">문화체육관광부</span>
+    <span class="partner-badge">한국문화예술교육진흥원</span>
+    <span class="partner-badge">서울시복지재단</span>
+    <span class="partner-badge">강원도사회적경제지원센터</span>
+    <span class="partner-badge">태백시문화재단</span>
+    <span class="partner-badge">서울시공익활동지원센터</span>
+    <span class="partner-badge">서울시</span>
+    <span class="partner-badge">문화체육관광부</span>
+    <span class="partner-badge">한국문화예술교육진흥원</span>
+    <span class="partner-badge">서울시복지재단</span>
+    <span class="partner-badge">강원도사회적경제지원센터</span>
+    <span class="partner-badge">태백시문화재단</span>
+    <span class="partner-badge">서울시공익활동지원센터</span>
+  </div>
+  <div class="marquee-track row2">
+    <span class="partner-badge">동대문문화재단</span>
+    <span class="partner-badge">노원문화원</span>
+    <span class="partner-badge">KT&G 상상플레닛</span>
+    <span class="partner-badge">산림힐링재단</span>
+    <span class="partner-badge">인천시</span>
+    <span class="partner-badge">춘천사회혁신센터</span>
+    <span class="partner-badge">블루버드씨</span>
+    <span class="partner-badge">동대문문화재단</span>
+    <span class="partner-badge">노원문화원</span>
+    <span class="partner-badge">KT&G 상상플레닛</span>
+    <span class="partner-badge">산림힐링재단</span>
+    <span class="partner-badge">인천시</span>
+    <span class="partner-badge">춘천사회혁신센터</span>
+    <span class="partner-badge">블루버드씨</span>
   </div>
 </div>
 
@@ -425,7 +574,7 @@
         <div class="label">외로움 보관소<br>참여자</div>
       </div>
       <div class="stat">
-        <div class="num">7<span class="unit">개</span></div>
+        <div class="num">15<span class="unit">개</span></div>
         <div class="label">외로움 보관소<br>설치 기관</div>
       </div>
     </div>
@@ -492,7 +641,7 @@
   <div class="modal">
     <button class="modal-close" onclick="closeModalDirect('modal1')">✕</button>
     <div class="modal-title">외로움 보관소</div>
-    <div class="modal-sub">2024 – 2025 · 7개 기관 · 참여자 1,176명</div>
+    <div class="modal-sub">2024 – 2025 · 15개 기관 · 참여자 1,176명</div>
     <div class="modal-photos">
       <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
       <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
@@ -561,6 +710,34 @@
   </div>
 </div>
 
+<!-- FAQ -->
+<div class="section" id="faq">
+  <div class="section-label">FAQ</div>
+  <h2 style="font-size:38px;font-weight:900;color:#5B3E96;margin-bottom:40px;">자주 묻는 질문</h2>
+  <div class="faq-list">
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question"><span>마음쓰임은 어떤 단체인가요?</span><span class="faq-icon">+</span></div>
+      <div class="faq-answer"><p>마음쓰임 주식회사는 외로움과 감정을 연구하며, 숲과 예술을 매개로 사람과 사람 사이의 관계를 잇는 활동을 하는 단체입니다. 외로움 보관소, 외로움 레시피, FOR-REST CAMP 등 다양한 프로그램과 브랜드를 운영하고 있습니다.</p></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question"><span>협업이나 지원사업 제안은 어떻게 하나요?</span><span class="faq-icon">+</span></div>
+      <div class="faq-answer"><p>하단의 이메일 문의하기 버튼을 통해 언제든 제안해 주세요. 문화예술 프로그램, 데이터 기반 사회조사, 자연 기반 치유 콘텐츠 분야의 협업 및 지원사업 제안을 환영합니다.</p></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question"><span>개인도 프로그램에 참여할 수 있나요?</span><span class="faq-icon">+</span></div>
+      <div class="faq-answer"><p>대부분의 프로그램은 지자체·기관과 연계해 운영되지만, 외로움 레시피처럼 개인 참여형으로 열리는 프로그램도 있습니다. 모집 시기는 인스타그램 및 이메일 문의를 통해 안내드리고 있습니다.</p></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question"><span>외로움 보관소는 정확히 무엇인가요?</span><span class="faq-icon">+</span></div>
+      <div class="faq-answer"><p>시민이 자신의 외로움을 꺼내어 기록하고 분류하는 경험을 제공하는 브랜드입니다. 팝업 전시, 워크숍, 데이터 기반 연차보고서를 통해 외로움을 사회적 언어로 시각화하며, 2024~2025년 기준 15개 기관에서 진행되었습니다.</p></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question"><span>주로 어느 지역에서 활동하나요?</span><span class="faq-icon">+</span></div>
+      <div class="faq-answer"><p>서울을 중심으로 강원도 태백, 충주, 인천 등 여러 지역에서 지자체 및 문화재단과 협력해 활동하고 있습니다.</p></div>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <div class="footer" id="contact">
   <div class="footer-inner">
@@ -622,6 +799,51 @@
   function closeModal(e, id) {
     if (e.target === e.currentTarget) closeModalDirect(id);
   }
+  function renderContent(items) {
+    var grid = document.getElementById('contentGrid');
+    grid.innerHTML = items.map(function(item) {
+      var imgStyle = item.image ? ' style="background-image:url(\'' + item.image + '\');background-size:cover;background-position:center;"' : '';
+      var imgText = item.image ? '' : '이미지 준비 중';
+      return '<div class="content-card ' + (item.colorClass || '') + '" data-cat="' + item.category + '">' +
+        '<div class="content-card-img"' + imgStyle + '>' + imgText + '</div>' +
+        '<div class="content-card-body">' +
+        '<div class="content-cat">' + item.categoryLabel + '</div>' +
+        '<h4>' + item.title + '</h4>' +
+        '<div class="content-date">' + item.date + '</div>' +
+        '</div></div>';
+    }).join('');
+  }
+
+  fetch('./content.json')
+    .then(function(res) { return res.json(); })
+    .then(function(items) {
+      items.sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
+      renderContent(items);
+    })
+    .catch(function(err) {
+      document.getElementById('contentGrid').innerHTML =
+        '<div style="grid-column:1/-1;text-align:center;color:#9B8AA8;padding:40px 0;">콘텐츠를 불러오지 못했습니다.</div>';
+      console.error('content.json load failed', err);
+    });
+
+  function toggleFaq(item) {
+    var wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(el) { el.classList.remove('open'); });
+    if (!wasOpen) item.classList.add('open');
+  }
+
+  function filterContent(cat, btn) {
+    document.querySelectorAll('.content-tab').forEach(function(t) { t.classList.remove('active'); });
+    btn.classList.add('active');
+    document.querySelectorAll('.content-card').forEach(function(card) {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       document.querySelectorAll('.modal-bg.open').forEach(function(m) {
