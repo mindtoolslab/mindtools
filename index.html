@@ -186,6 +186,7 @@
     background: #fff; border-radius: 16px; overflow: hidden;
     border: 1px solid #EFE6E0; cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none; color: inherit; display: block;
   }
   .content-card.hidden { display: none; }
   .content-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(91,62,150,0.12); }
@@ -234,26 +235,18 @@
   /* ARCHIVE — 풀블리드 */
   .archive-section {
     background: linear-gradient(135deg, #7B5EC8 0%, #9B6EC8 40%, #D4786A 100%);
-    padding: 100px 60px;
+    padding: 56px 60px;
   }
   .archive-inner { max-width: 1200px; margin: 0 auto; }
-  .archive-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; }
+  .archive-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; }
   .archive-header .section-label { color: #E8A88B; }
-  .archive-header h2 { font-size: 38px; font-weight: 900; color: #fff; margin-top: 10px; }
-  .archive-year {
-    font-size: 160px; font-weight: 900;
-    color: rgba(255,255,255,0.07);
-    line-height: 1;
-    letter-spacing: -8px;
-    font-style: italic;
-    user-select: none;
-  }
+  .archive-header h2 { font-size: 32px; font-weight: 900; color: #fff; margin-top: 8px; }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .stat { background: rgba(255,255,255,0.18); border-radius: 16px; padding: 36px 32px; text-align: center; }
-  .stat .num { font-size: 56px; font-weight: 900; color: #FFFFFF; margin-bottom: 8px; line-height: 1; }
-  .stat .num.small { font-size: 42px; }
-  .stat .unit { font-size: 18px; font-weight: 300; color: rgba(255,255,255,0.75); }
-  .stat .label { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.6; margin-top: 12px; }
+  .stat { background: rgba(255,255,255,0.18); border-radius: 16px; padding: 24px 28px; text-align: center; }
+  .stat .num { font-size: 44px; font-weight: 900; color: #FFFFFF; margin-bottom: 6px; line-height: 1; }
+  .stat .num.small { font-size: 34px; }
+  .stat .unit { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.75); }
+  .stat .label { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.5; margin-top: 10px; }
 
   /* GALLERY — 비대칭 그리드 */
   .gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
@@ -354,7 +347,7 @@
     .programs-layout { grid-template-columns: 1fr; gap: 40px; }
     .program-grid { grid-template-columns: 1fr; }
     .content-grid { grid-template-columns: 1fr; }
-    .archive-section { padding: 60px 24px; }
+    .archive-section { padding: 40px 24px; }
     .stats { grid-template-columns: 1fr; }
     .section { padding: 60px 24px; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
@@ -372,8 +365,8 @@
   </a>
   <div class="menu">
     <a href="#programs">핵심 사업</a>
-    <a href="#content">콘텐츠</a>
     <a href="#archive">아카이브</a>
+    <a href="#content">콘텐츠</a>
     <a href="#projects">프로젝트</a>
     <a href="#faq">FAQ</a>
     <a href="#contact">문의</a>
@@ -407,6 +400,20 @@
   </div>
 </div>
 
+<!-- ARCHIVE -->
+<div class="archive-section" id="archive">
+  <div class="archive-inner">
+    <div class="archive-header">
+      <div>
+        <div class="section-label">Archive</div>
+        <h2>숫자로 보는 외로움 아카이브</h2>
+      </div>
+    </div>
+    <div class="stats" id="archiveStats">
+    </div>
+  </div>
+</div>
+
 <!-- CONTENT SQUARE -->
 <div class="section" id="content">
   <div class="gallery-header">
@@ -426,32 +433,6 @@
   </div>
 </div>
 
-<!-- PARTNERS MARQUEE -->
-<div class="partners-section">
-  <div class="partners-label">
-    <div class="section-label" style="text-align:center;">Collaborators</div>
-  </div>
-  <div class="marquee-track row1" id="partnersRow1">
-  </div>
-  <div class="marquee-track row2" id="partnersRow2">
-  </div>
-</div>
-
-<!-- ARCHIVE -->
-<div class="archive-section" id="archive">
-  <div class="archive-inner">
-    <div class="archive-header">
-      <div>
-        <div class="section-label">Archive</div>
-        <h2>숫자로 보는 외로움 아카이브</h2>
-      </div>
-      <div class="archive-year">2026</div>
-    </div>
-    <div class="stats" id="archiveStats">
-    </div>
-  </div>
-</div>
-
 <!-- GALLERY -->
 <div class="section" id="projects">
   <div class="gallery-header">
@@ -467,6 +448,17 @@
 
 <!-- MODALS -->
 <div id="modalsContainer"></div>
+
+<!-- PARTNERS MARQUEE -->
+<div class="partners-section">
+  <div class="partners-label">
+    <div class="section-label" style="text-align:center;">Collaborators</div>
+  </div>
+  <div class="marquee-track row1" id="partnersRow1">
+  </div>
+  <div class="marquee-track row2" id="partnersRow2">
+  </div>
+</div>
 
 <!-- FAQ -->
 <div class="section" id="faq">
@@ -546,13 +538,17 @@
     grid.innerHTML = items.map(function(item) {
       var imgStyle = item.image ? ' style="background-image:url(\'' + item.image + '\');background-size:cover;background-position:center;"' : '';
       var imgText = item.image ? '' : '이미지 준비 중';
-      return '<div class="content-card ' + (item.colorClass || '') + '" data-cat="' + item.category + '">' +
+      var hasLink = !!item.link;
+      var tag = hasLink ? 'a' : 'div';
+      var linkAttrs = hasLink ? ' href="' + item.link + '" target="_blank" rel="noopener"' : '';
+      var cursorStyle = hasLink ? '' : ' style="cursor:default;"';
+      return '<' + tag + ' class="content-card ' + (item.colorClass || '') + '" data-cat="' + item.category + '"' + linkAttrs + cursorStyle + '>' +
         '<div class="content-card-img"' + imgStyle + '>' + imgText + '</div>' +
         '<div class="content-card-body">' +
         '<div class="content-cat">' + item.categoryLabel + '</div>' +
         '<h4>' + item.title + '</h4>' +
-        '<div class="content-date">' + item.date + '</div>' +
-        '</div></div>';
+        '<div class="content-date">' + item.date + (hasLink ? ' · 글 보러 가기 →' : '') + '</div>' +
+        '</div></' + tag + '>';
     }).join('');
   }
 
@@ -610,13 +606,11 @@
   }
 
   function photoBlock(photos) {
-    var arr = (photos && photos.length ? photos : ['', '', '', '']).slice(0, 4);
-    while (arr.length < 4) arr.push('');
-    return arr.map(function(p, i) {
-      return p
-        ? '<div class="modal-photo"><img src="' + p + '" alt=""></div>'
-        : '<div class="modal-photo">사진 ' + (i + 1) + '</div>';
-    }).join('');
+    var real = (photos || []).filter(function(p) { return !!p; });
+    if (!real.length) {
+      return ['1', '2', '3', '4'].map(function(n) { return '<div class="modal-photo">사진 ' + n + '</div>'; }).join('');
+    }
+    return real.map(function(p) { return '<div class="modal-photo"><img src="' + p + '" alt=""></div>'; }).join('');
   }
 
   function renderSite(data) {

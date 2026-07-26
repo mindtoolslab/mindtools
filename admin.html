@@ -134,6 +134,8 @@
           <div><label>날짜</label><input type="text" id="dateInput" placeholder="2026.07"></div>
           <div><label>사진 (선택, 수정 시 비워두면 기존 사진 유지)</label><input type="file" id="imageInput" accept="image/*"></div>
         </div>
+        <label>외부 링크 (선택 — 블로그/브런치 글 주소, 넣으면 카드 클릭 시 그 글로 이동)</label>
+        <input type="text" id="linkInput" placeholder="https://brunch.co.kr/...">
         <button class="wide" onclick="submitPost()" id="submitBtn">저장하고 GitHub에 반영</button>
         <button class="wide ghost" onclick="cancelEdit()" id="cancelEditBtn" style="display:none;">수정 취소</button>
         <div id="postStatus" class="status"></div>
@@ -344,7 +346,7 @@
     var sorted = state.items.slice().sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
     list.innerHTML = sorted.map(function(item) {
       return '<div class="item-row"><div class="meta"><span class="tag">' + (item.categoryLabel || catLabels[item.category] || '') + '</span>' +
-        item.title + '<span class="date">' + item.date + '</span></div>' +
+        item.title + (item.link ? ' 🔗' : '') + '<span class="date">' + item.date + '</span></div>' +
         '<div style="display:flex;gap:8px;">' +
         '<button class="ghost" onclick="startEdit(\'' + item.id + '\')">수정</button>' +
         '<button class="secondary" onclick="deleteItem(\'' + item.id + '\')">삭제</button>' +
@@ -360,6 +362,7 @@
     document.getElementById('titleInput').value = item.title;
     document.getElementById('dateInput').value = item.date;
     document.getElementById('imageInput').value = '';
+    document.getElementById('linkInput').value = item.link || '';
     document.getElementById('postFormTitle').textContent = '글 수정 중: ' + item.title;
     document.getElementById('submitBtn').textContent = '수정 내용 저장';
     document.getElementById('cancelEditBtn').style.display = 'block';
@@ -373,6 +376,7 @@
     document.getElementById('titleInput').value = '';
     document.getElementById('dateInput').value = '';
     document.getElementById('imageInput').value = '';
+    document.getElementById('linkInput').value = '';
     document.getElementById('postFormTitle').textContent = '새 글 작성';
     document.getElementById('submitBtn').textContent = '저장하고 GitHub에 반영';
     document.getElementById('cancelEditBtn').style.display = 'none';
@@ -384,6 +388,7 @@
     var catLabels = { story: '외로움 이야기', field: '현장 리포트', interview: '인터뷰' };
     var title = document.getElementById('titleInput').value.trim();
     var date = document.getElementById('dateInput').value.trim();
+    var link = document.getElementById('linkInput').value.trim();
     var fileInput = document.getElementById('imageInput');
     var file = fileInput.files[0];
     if (!title || !date) { showStatus('postStatus', 'err', '제목과 날짜를 입력해주세요.'); return; }
@@ -398,7 +403,7 @@
 
     var newItem = {
       id: targetId, category: category, categoryLabel: catLabels[category],
-      title: title, date: date,
+      title: title, date: date, link: link,
       image: existing ? existing.image : '',
       colorClass: existing ? existing.colorClass : 'k' + ((state.items.length % 6) + 1)
     };
@@ -425,6 +430,7 @@
       else {
         document.getElementById('titleInput').value = '';
         document.getElementById('dateInput').value = '';
+        document.getElementById('linkInput').value = '';
         fileInput.value = '';
       }
     }).catch(function(err) { showStatus('postStatus', 'err', err.message); })
@@ -536,28 +542,38 @@
         '</div>' +
         '<label>모달 부제</label><input type="text" data-proj="' + i + '" data-field="modalSub" value="' + escAttr(p.modalSub) + '">' +
         '<label>모달 상세 설명</label><textarea data-proj="' + i + '" data-field="modalDesc" rows="3">' + escHtml(p.modalDesc) + '</textarea>' +
-        '<label>사진 (최대 4장, 첫 사진이 히어로/갤러리 대표 이미지로 사용됩니다)</label>' +
+        '<label>사진 (개수 제한 없음, 첫 사진이 히어로/갤러리 대표 이미지로 사용됩니다)</label>' +
         '<input type="file" accept="image/*" multiple data-proj-photo="' + i + '">' +
-        '<div class="photo-grid">' + (p.photos || []).map(function(url, pi) { return '<div>' + (url ? '사진 ' + (pi + 1) + ' 등록됨' : '사진 ' + (pi + 1) + ' 없음') + '</div>'; }).join('') + '</div>' +
+        '<div class="photo-grid">' + (p.photos || []).filter(function(u) { return !!u; }).map(function(url, pi) {
+          return '<div style="display:flex;flex-direction:column;gap:4px;"><img src="' + url + '" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;"><button class="secondary" style="font-size:10px;padding:3px 6px;" onclick="removeProjectPhoto(' + i + ',' + pi + ')">삭제</button></div>';
+        }).join('') + '</div>' +
         '</div>';
     }).join('');
 
     document.querySelectorAll('[data-proj-photo]').forEach(function(input) {
       input.addEventListener('change', function() {
         var i = parseInt(input.dataset.projPhoto, 10);
-        var files = Array.from(input.files).slice(0, 4);
+        var files = Array.from(input.files);
         if (!files.length) return;
         showStatus('projectsStatus', 'loading', '사진 업로드 중...');
         Promise.all(files.map(function(f) { return uploadImage(f, state.site.projects[i].id); }))
           .then(function(urls) {
             collectProjects();
-            state.site.projects[i].photos = urls.concat(state.site.projects[i].photos || []).slice(0, 4);
+            var existing = (state.site.projects[i].photos || []).filter(function(u) { return !!u; });
+            state.site.projects[i].photos = existing.concat(urls);
             renderProjects();
             showStatus('projectsStatus', 'ok', '사진이 반영되었습니다. "프로젝트 저장" 버튼을 눌러 GitHub에 반영하세요.');
           })
           .catch(function(err) { showStatus('projectsStatus', 'err', err.message); });
       });
     });
+  }
+  function removeProjectPhoto(projIndex, photoIndex) {
+    collectProjects();
+    var real = (state.site.projects[projIndex].photos || []).filter(function(u) { return !!u; });
+    real.splice(photoIndex, 1);
+    state.site.projects[projIndex].photos = real;
+    renderProjects();
   }
   function collectProjects() {
     document.querySelectorAll('[data-proj]').forEach(function(el) {
