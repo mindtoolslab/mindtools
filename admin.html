@@ -125,6 +125,7 @@
       <button class="tab-btn" data-tab="partners" onclick="showTab('partners')">협력기관</button>
       <button class="tab-btn" data-tab="archive" onclick="showTab('archive')">아카이브 숫자</button>
       <button class="tab-btn" data-tab="faq" onclick="showTab('faq')">FAQ</button>
+      <button class="tab-btn" data-tab="titles" onclick="showTab('titles')">섹션 제목</button>
       <button class="tab-btn" data-tab="footer" onclick="showTab('footer')">푸터</button>
     </div>
 
@@ -237,6 +238,50 @@
         <button class="ghost wide" onclick="addFaq()">+ 질문 추가</button>
         <button class="wide" onclick="saveSite('faq')">FAQ 저장</button>
         <div id="faqStatus" class="status"></div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION TITLES ===== -->
+    <div class="tab-panel lockable" id="panel-titles">
+      <div class="card">
+        <h2>섹션 대제목 / 라벨</h2>
+        <div class="hint" style="margin-bottom:16px;">각 섹션 상단의 작은 영문 라벨과 큰 제목을 여기서 바꿀 수 있어요.</div>
+
+        <h3>핵심 사업 섹션</h3>
+        <div class="row">
+          <div><label>라벨</label><input type="text" id="titleProgramsLabel"></div>
+          <div><label>대제목</label><input type="text" id="titleProgramsTitle"></div>
+        </div>
+
+        <h3 style="margin-top:20px;">마음쓰임 이야기 섹션</h3>
+        <div class="row">
+          <div><label>라벨</label><input type="text" id="titleContentLabel"></div>
+          <div><label>대제목</label><input type="text" id="titleContentTitle"></div>
+        </div>
+
+        <h3 style="margin-top:20px;">프로젝트 갤러리 섹션</h3>
+        <div class="row">
+          <div><label>라벨</label><input type="text" id="titleProjectsLabel"></div>
+          <div><label>대제목</label><input type="text" id="titleProjectsTitle"></div>
+        </div>
+
+        <h3 style="margin-top:20px;">협력기관 섹션</h3>
+        <label>라벨</label><input type="text" id="titlePartnersLabel">
+
+        <h3 style="margin-top:20px;">아카이브 섹션</h3>
+        <div class="row">
+          <div><label>라벨</label><input type="text" id="titleArchiveLabel"></div>
+          <div><label>대제목</label><input type="text" id="titleArchiveTitle"></div>
+        </div>
+
+        <h3 style="margin-top:20px;">FAQ 섹션</h3>
+        <div class="row">
+          <div><label>라벨</label><input type="text" id="titleFaqLabel"></div>
+          <div><label>대제목</label><input type="text" id="titleFaqTitle"></div>
+        </div>
+
+        <button class="wide" onclick="saveSite('titles')">섹션 제목 저장</button>
+        <div id="titlesStatus" class="status"></div>
       </div>
     </div>
 
@@ -558,8 +603,18 @@
       .catch(function(err) { console.error(err); });
   }
 
+  var DEFAULT_TITLES = {
+    programsLabel: 'Our Programs', programsTitle: '핵심 사업 & 브랜드',
+    contentLabel: 'Mindtoolslab Contents', contentTitle: '마음쓰임 이야기',
+    projectsLabel: 'Projects', projectsTitle: '진행된 프로젝트',
+    partnersLabel: 'Collaborators',
+    archiveLabel: 'Archive', archiveTitle: '숫자로 보는 외로움 아카이브',
+    faqLabel: 'FAQ', faqTitle: '자주 묻는 질문'
+  };
+
   function renderAllSections() {
     var s = state.site;
+    if (!s.sectionTitles) s.sectionTitles = Object.assign({}, DEFAULT_TITLES);
     document.getElementById('heroTag').value = s.hero.tag;
     document.getElementById('heroTitleHtml').value = s.hero.titleHtml;
     document.getElementById('heroCtaText').value = s.hero.ctaText;
@@ -570,9 +625,38 @@
     renderArchive();
     renderFaqEdit();
 
+    var t = s.sectionTitles;
+    document.getElementById('titleProgramsLabel').value = t.programsLabel || DEFAULT_TITLES.programsLabel;
+    document.getElementById('titleProgramsTitle').value = t.programsTitle || DEFAULT_TITLES.programsTitle;
+    document.getElementById('titleContentLabel').value = t.contentLabel || DEFAULT_TITLES.contentLabel;
+    document.getElementById('titleContentTitle').value = t.contentTitle || DEFAULT_TITLES.contentTitle;
+    document.getElementById('titleProjectsLabel').value = t.projectsLabel || DEFAULT_TITLES.projectsLabel;
+    document.getElementById('titleProjectsTitle').value = t.projectsTitle || DEFAULT_TITLES.projectsTitle;
+    document.getElementById('titlePartnersLabel').value = t.partnersLabel || DEFAULT_TITLES.partnersLabel;
+    document.getElementById('titleArchiveLabel').value = t.archiveLabel || DEFAULT_TITLES.archiveLabel;
+    document.getElementById('titleArchiveTitle').value = t.archiveTitle || DEFAULT_TITLES.archiveTitle;
+    document.getElementById('titleFaqLabel').value = t.faqLabel || DEFAULT_TITLES.faqLabel;
+    document.getElementById('titleFaqTitle').value = t.faqTitle || DEFAULT_TITLES.faqTitle;
+
     document.getElementById('footerTitleHtml').value = s.footer.titleHtml;
     document.getElementById('footerDescHtml').value = s.footer.descHtml;
     document.getElementById('footerEmail').value = s.footer.email;
+  }
+
+  function collectSectionTitles() {
+    state.site.sectionTitles = {
+      programsLabel: document.getElementById('titleProgramsLabel').value,
+      programsTitle: document.getElementById('titleProgramsTitle').value,
+      contentLabel: document.getElementById('titleContentLabel').value,
+      contentTitle: document.getElementById('titleContentTitle').value,
+      projectsLabel: document.getElementById('titleProjectsLabel').value,
+      projectsTitle: document.getElementById('titleProjectsTitle').value,
+      partnersLabel: document.getElementById('titlePartnersLabel').value,
+      archiveLabel: document.getElementById('titleArchiveLabel').value,
+      archiveTitle: document.getElementById('titleArchiveTitle').value,
+      faqLabel: document.getElementById('titleFaqLabel').value,
+      faqTitle: document.getElementById('titleFaqTitle').value
+    };
   }
 
   function saveSite(sectionLabel) {
@@ -585,6 +669,7 @@
     collectProjects();
     collectArchive();
     collectFaq();
+    collectSectionTitles();
     s.footer.titleHtml = document.getElementById('footerTitleHtml').value;
     s.footer.descHtml = document.getElementById('footerDescHtml').value;
     s.footer.email = document.getElementById('footerEmail').value;
