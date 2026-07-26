@@ -83,6 +83,16 @@
   .add-inline button { flex-shrink: 0; }
   .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px; }
   .photo-grid div { font-size: 11px; color: #9B8AA8; }
+  .photo-grid > div[draggable="true"] { cursor: grab; }
+  .photo-grid > div[draggable="true"]:active { cursor: grabbing; }
+  .dropzone {
+    border: 2px dashed #D4C2EC; border-radius: 12px; padding: 20px;
+    text-align: center; color: #9B8AA8; font-size: 13px; cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .dropzone:hover { background: #FBF9F7; }
+  .dropzone.dragover { background: #F0EBFA; border-color: #5B3E96; color: #5B3E96; }
+  .dropzone input[type=file] { display: none; }
 </style>
 </head>
 <body>
@@ -133,8 +143,11 @@
         <div class="row">
           <div><label>날짜</label><input type="text" id="dateInput" placeholder="2026.07"></div>
         </div>
-        <label>사진 (여러 장 가능, 첫 사진이 카드 대표 이미지로 쓰여요)</label>
-        <input type="file" id="imageInput" accept="image/*" multiple>
+        <label>사진 (여러 장 가능, 첫 사진이 카드 대표 이미지로 쓰여요 — 순서는 사진을 드래그해서 바꿀 수 있어요)</label>
+        <div class="dropzone" id="postDropzone">
+          사진을 여기로 끌어다 놓거나 클릭해서 선택하세요
+          <input type="file" id="imageInput" accept="image/*" multiple>
+        </div>
         <div class="photo-grid" id="postPhotoGrid"></div>
         <label>외부 링크 (선택 — 블로그/브런치 글 주소, 넣으면 카드 클릭 시 그 글로 이동)</label>
         <input type="text" id="linkInput" placeholder="https://brunch.co.kr/...">
@@ -359,14 +372,19 @@
   function renderPostPhotoGrid() {
     var grid = document.getElementById('postPhotoGrid');
     grid.innerHTML = state.pendingImages.map(function(url, i) {
-      return '<div style="display:flex;flex-direction:column;gap:4px;">' +
-        '<img src="' + url + '" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">' +
+      return '<div draggable="true" data-idx="' + i + '" style="display:flex;flex-direction:column;gap:4px;">' +
+        '<img src="' + url + '" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;pointer-events:none;">' +
         '<div style="display:flex;gap:4px;">' +
         '<button class="ghost" style="font-size:10px;padding:3px 6px;flex:1;" onclick="movePostPhoto(' + i + ',-1)"' + (i === 0 ? ' disabled' : '') + '>◀</button>' +
         '<button class="ghost" style="font-size:10px;padding:3px 6px;flex:1;" onclick="movePostPhoto(' + i + ',1)"' + (i === state.pendingImages.length - 1 ? ' disabled' : '') + '>▶</button>' +
         '<button class="secondary" style="font-size:10px;padding:3px 6px;flex:1;" onclick="removePostPhoto(' + i + ')">삭제</button>' +
         '</div></div>';
     }).join('');
+    enableDragReorder(grid, function(from, to) {
+      var item = state.pendingImages.splice(from, 1)[0];
+      state.pendingImages.splice(to, 0, item);
+      renderPostPhotoGrid();
+    });
   }
 
   function movePostPhoto(i, dir) {
@@ -383,17 +401,54 @@
     renderPostPhotoGrid();
   }
 
-  document.getElementById('imageInput').addEventListener('change', function() {
-    var files = Array.from(this.files);
-    if (!files.length) return;
-    var thisInput = this;
+  /* ---- 공용: 드래그로 사진 순서 바꾸기 ---- */
+  function enableDragReorder(gridEl, onReorder) {
+    var dragIndex = null;
+    Array.from(gridEl.children).forEach(function(child) {
+      child.addEventListener('dragstart', function() {
+        dragIndex = parseInt(child.dataset.idx, 10);
+        child.style.opacity = '0.4';
+      });
+      child.addEventListener('dragend', function() { child.style.opacity = ''; });
+      child.addEventListener('dragover', function(e) { e.preventDefault(); child.style.outline = '2px solid #5B3E96'; });
+      child.addEventListener('dragleave', function() { child.style.outline = ''; });
+      child.addEventListener('drop', function(e) {
+        e.preventDefault();
+        child.style.outline = '';
+        var dropIndex = parseInt(child.dataset.idx, 10);
+        if (dragIndex === null || dragIndex === dropIndex) return;
+        onReorder(dragIndex, dropIndex);
+      });
+    });
+  }
+
+  /* ---- 공용: 파일 입력 + 드래그앤드롭 업로드 존 ---- */
+  function wireDropzone(zoneEl, inputEl, onFiles) {
+    zoneEl.addEventListener('click', function(e) {
+      if (e.target !== inputEl) inputEl.click();
+    });
+    inputEl.addEventListener('change', function() {
+      var files = Array.from(inputEl.files);
+      inputEl.value = '';
+      if (files.length) onFiles(files);
+    });
+    zoneEl.addEventListener('dragover', function(e) { e.preventDefault(); zoneEl.classList.add('dragover'); });
+    zoneEl.addEventListener('dragleave', function() { zoneEl.classList.remove('dragover'); });
+    zoneEl.addEventListener('drop', function(e) {
+      e.preventDefault();
+      zoneEl.classList.remove('dragover');
+      var files = Array.from(e.dataTransfer.files).filter(function(f) { return f.type.indexOf('image/') === 0; });
+      if (files.length) onFiles(files);
+    });
+  }
+
+  wireDropzone(document.getElementById('postDropzone'), document.getElementById('imageInput'), function(files) {
     showStatus('postStatus', 'loading', '사진 업로드 중...');
     Promise.all(files.map(function(f) { return uploadImage(f, (state.editingId || 'post') + '-' + Date.now()); }))
       .then(function(urls) {
         state.pendingImages = state.pendingImages.concat(urls);
         renderPostPhotoGrid();
         showStatus('postStatus', 'ok', '사진이 추가되었습니다. 저장 버튼을 눌러 반영하세요.');
-        thisInput.value = '';
       })
       .catch(function(err) { showStatus('postStatus', 'err', err.message); });
   });
@@ -585,10 +640,11 @@
         '</div>' +
         '<label>모달 부제</label><input type="text" data-proj="' + i + '" data-field="modalSub" value="' + escAttr(p.modalSub) + '">' +
         '<label>모달 상세 설명</label><textarea data-proj="' + i + '" data-field="modalDesc" rows="3">' + escHtml(p.modalDesc) + '</textarea>' +
-        '<label>사진 (개수 제한 없음, 첫 사진이 히어로/갤러리 대표 이미지로 사용됩니다)</label>' +
-        '<input type="file" accept="image/*" multiple data-proj-photo="' + i + '">' +
-        '<div class="photo-grid">' + (p.photos || []).filter(function(u) { return !!u; }).map(function(url, pi, arr) {
-          return '<div style="display:flex;flex-direction:column;gap:4px;"><img src="' + url + '" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">' +
+        '<label>사진 (개수 제한 없음, 첫 사진이 히어로/갤러리 대표 이미지로 사용됩니다 — 드래그해서 순서 변경 가능)</label>' +
+        '<div class="dropzone" id="projDropzone-' + i + '">사진을 여기로 끌어다 놓거나 클릭해서 선택하세요' +
+        '<input type="file" accept="image/*" multiple id="projFileInput-' + i + '"></div>' +
+        '<div class="photo-grid" id="projPhotoGrid-' + i + '">' + (p.photos || []).filter(function(u) { return !!u; }).map(function(url, pi, arr) {
+          return '<div draggable="true" data-idx="' + pi + '" style="display:flex;flex-direction:column;gap:4px;"><img src="' + url + '" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;pointer-events:none;">' +
             '<div style="display:flex;gap:4px;">' +
             '<button class="ghost" style="font-size:10px;padding:3px 6px;flex:1;" onclick="moveProjectPhoto(' + i + ',' + pi + ',-1)"' + (pi === 0 ? ' disabled' : '') + '>◀</button>' +
             '<button class="ghost" style="font-size:10px;padding:3px 6px;flex:1;" onclick="moveProjectPhoto(' + i + ',' + pi + ',1)"' + (pi === arr.length - 1 ? ' disabled' : '') + '>▶</button>' +
@@ -598,11 +654,10 @@
         '</div>';
     }).join('');
 
-    document.querySelectorAll('[data-proj-photo]').forEach(function(input) {
-      input.addEventListener('change', function() {
-        var i = parseInt(input.dataset.projPhoto, 10);
-        var files = Array.from(input.files);
-        if (!files.length) return;
+    state.site.projects.forEach(function(p, i) {
+      var zone = document.getElementById('projDropzone-' + i);
+      var input = document.getElementById('projFileInput-' + i);
+      wireDropzone(zone, input, function(files) {
         showStatus('projectsStatus', 'loading', '사진 업로드 중...');
         Promise.all(files.map(function(f) { return uploadImage(f, state.site.projects[i].id); }))
           .then(function(urls) {
@@ -613,6 +668,14 @@
             showStatus('projectsStatus', 'ok', '사진이 반영되었습니다. "프로젝트 저장" 버튼을 눌러 GitHub에 반영하세요.');
           })
           .catch(function(err) { showStatus('projectsStatus', 'err', err.message); });
+      });
+      enableDragReorder(document.getElementById('projPhotoGrid-' + i), function(from, to) {
+        collectProjects();
+        var real = (state.site.projects[i].photos || []).filter(function(u) { return !!u; });
+        var item = real.splice(from, 1)[0];
+        real.splice(to, 0, item);
+        state.site.projects[i].photos = real;
+        renderProjects();
       });
     });
   }
