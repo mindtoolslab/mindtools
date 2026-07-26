@@ -67,6 +67,11 @@
   .hero-left h1 .thin {
     font-weight: 300; color: #766E80;
   }
+  .hero-left h1 .small {
+    display: block; font-size: 22px; font-weight: 400;
+    color: #766E80; margin-top: 18px; line-height: 1.6;
+    letter-spacing: 0;
+  }
   .hero-sub {
     margin-top: 40px;
     font-size: 16px; color: #766E80; line-height: 1.8; font-weight: 400;
@@ -243,7 +248,7 @@
   .archive-header h2 { font-size: 32px; font-weight: 900; color: #fff; margin-top: 8px; }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .stat { background: rgba(255,255,255,0.18); border-radius: 16px; padding: 24px 28px; text-align: center; }
-  .stat .num { font-size: 44px; font-weight: 900; color: #FFFFFF; margin-bottom: 6px; line-height: 1; }
+  .stat .num { font-size: 44px; font-weight: 900; color: #FFFFFF; margin-bottom: 6px; line-height: 1; font-variant-numeric: tabular-nums; }
   .stat .num.small { font-size: 34px; }
   .stat .unit { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.75); }
   .stat .label { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.5; margin-top: 10px; }
@@ -344,6 +349,7 @@
     .nav .menu { display: none; }
     .hero { grid-template-columns: 1fr; padding: 60px 24px 40px; min-height: auto; gap: 40px; }
     .hero-left h1 { font-size: 34px; }
+    .hero-left h1 .small { font-size: 16px; margin-top: 12px; }
     .programs-layout { grid-template-columns: 1fr; gap: 40px; }
     .program-grid { grid-template-columns: 1fr; }
     .content-grid { grid-template-columns: 1fr; }
@@ -392,8 +398,8 @@
 <div class="section" id="programs">
   <div class="programs-layout">
     <div class="programs-left">
-      <div class="section-label">Our Programs</div>
-      <h2>핵심 사업 & 브랜드</h2>
+      <div class="section-label" id="programsLabel">Our Programs</div>
+      <h2 id="programsTitle">핵심 사업 & 브랜드</h2>
     </div>
     <div class="program-grid" id="programGrid">
     </div>
@@ -404,8 +410,8 @@
 <div class="section" id="content">
   <div class="gallery-header">
     <div>
-      <div class="section-label">Mindtoolslab Contents</div>
-      <h2>마음쓰임 이야기</h2>
+      <div class="section-label" id="contentLabel">Mindtoolslab Contents</div>
+      <h2 id="contentTitle">마음쓰임 이야기</h2>
     </div>
   </div>
   <div class="content-tabs">
@@ -423,8 +429,8 @@
 <div class="section" id="projects">
   <div class="gallery-header">
     <div>
-      <div class="section-label">Projects</div>
-      <h2>진행된 프로젝트</h2>
+      <div class="section-label" id="projectsLabel">Projects</div>
+      <h2 id="projectsTitle">진행된 프로젝트</h2>
     </div>
     <a href="#" class="more-btn">더보기 +</a>
   </div>
@@ -438,7 +444,7 @@
 <!-- PARTNERS MARQUEE -->
 <div class="partners-section">
   <div class="partners-label">
-    <div class="section-label" style="text-align:center;">Collaborators</div>
+    <div class="section-label" id="partnersLabel" style="text-align:center;">Collaborators</div>
   </div>
   <div class="marquee-track row1" id="partnersRow1">
   </div>
@@ -451,8 +457,8 @@
   <div class="archive-inner">
     <div class="archive-header">
       <div>
-        <div class="section-label">Archive</div>
-        <h2>숫자로 보는 외로움 아카이브</h2>
+        <div class="section-label" id="archiveLabel">Archive</div>
+        <h2 id="archiveTitle">숫자로 보는 외로움 아카이브</h2>
       </div>
     </div>
     <div class="stats" id="archiveStats">
@@ -462,8 +468,8 @@
 
 <!-- FAQ -->
 <div class="section" id="faq">
-  <div class="section-label">FAQ</div>
-  <h2 style="font-size:38px;font-weight:900;color:#5B3E96;margin-bottom:40px;">자주 묻는 질문</h2>
+  <div class="section-label" id="faqLabel">FAQ</div>
+  <h2 id="faqTitle" style="font-size:38px;font-weight:900;color:#5B3E96;margin-bottom:40px;">자주 묻는 질문</h2>
   <div class="faq-list" id="faqList">
   </div>
 </div>
@@ -616,12 +622,13 @@
 
   function animateCount(el) {
     var target = Number(el.dataset.target) || 0;
-    var duration = 1300;
+    var duration = 2600;
     var startTime = null;
+    function easeInOutQuad(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
     function step(ts) {
       if (!startTime) startTime = ts;
       var progress = Math.min((ts - startTime) / duration, 1);
-      var eased = 1 - Math.pow(1 - progress, 3);
+      var eased = easeInOutQuad(progress);
       var current = Math.floor(eased * target);
       el.textContent = current.toLocaleString('ko-KR');
       if (progress < 1) requestAnimationFrame(step);
@@ -650,11 +657,25 @@
 
   function renderSite(data) {
     siteData = data;
+    var st = data.sectionTitles || {};
 
     // HERO
     document.getElementById('heroTag').textContent = data.hero.tag;
     document.getElementById('heroTitle').innerHTML = data.hero.titleHtml;
     document.getElementById('heroCta').textContent = data.hero.ctaText;
+
+    // SECTION TITLES
+    document.getElementById('programsLabel').textContent = st.programsLabel || 'Our Programs';
+    document.getElementById('programsTitle').textContent = st.programsTitle || '핵심 사업 & 브랜드';
+    document.getElementById('contentLabel').textContent = st.contentLabel || 'Mindtoolslab Contents';
+    document.getElementById('contentTitle').textContent = st.contentTitle || '마음쓰임 이야기';
+    document.getElementById('projectsLabel').textContent = st.projectsLabel || 'Projects';
+    document.getElementById('projectsTitle').textContent = st.projectsTitle || '진행된 프로젝트';
+    document.getElementById('partnersLabel').textContent = st.partnersLabel || 'Collaborators';
+    document.getElementById('archiveLabel').textContent = st.archiveLabel || 'Archive';
+    document.getElementById('archiveTitle').textContent = st.archiveTitle || '숫자로 보는 외로움 아카이브';
+    document.getElementById('faqLabel').textContent = st.faqLabel || 'FAQ';
+    document.getElementById('faqTitle').textContent = st.faqTitle || '자주 묻는 질문';
 
     // SLIDESHOW (from projects)
     var slideshow = document.getElementById('slideshow');
