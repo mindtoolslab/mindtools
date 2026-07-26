@@ -631,8 +631,9 @@
   /* ---- Projects ---- */
   function renderProjects() {
     document.getElementById('projectsList').innerHTML = state.site.projects.map(function(p, i) {
-      return '<div class="subitem"><div class="subitem-head"><strong>' + p.id + '</strong>' +
+      return '<div class="subitem" draggable="true" data-idx="' + i + '"><div class="subitem-head"><strong>⠿ ' + p.id + '</strong>' +
         '<button class="secondary" onclick="removeProject(' + i + ')">삭제</button></div>' +
+        '<div class="hint" style="margin:-6px 0 10px;">이 카드를 드래그하면 히어로 슬라이드·갤러리·모달 순서가 다 함께 바뀌어요.</div>' +
         '<label>제목</label><input type="text" data-proj="' + i + '" data-field="title" value="' + escAttr(p.title) + '">' +
         '<div class="row">' +
         '<div><label>연도/기간 표시 (갤러리)</label><input type="text" data-proj="' + i + '" data-field="yearLabel" value="' + escAttr(p.yearLabel) + '"></div>' +
@@ -653,6 +654,13 @@
         }).join('') + '</div>' +
         '</div>';
     }).join('');
+
+    enableDragReorder(document.getElementById('projectsList'), function(from, to) {
+      collectProjects();
+      var item = state.site.projects.splice(from, 1)[0];
+      state.site.projects.splice(to, 0, item);
+      renderProjects();
+    });
 
     state.site.projects.forEach(function(p, i) {
       var zone = document.getElementById('projDropzone-' + i);

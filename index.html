@@ -365,9 +365,9 @@
   </a>
   <div class="menu">
     <a href="#programs">핵심 사업</a>
-    <a href="#archive">아카이브</a>
     <a href="#content">콘텐츠</a>
     <a href="#projects">프로젝트</a>
+    <a href="#archive">아카이브</a>
     <a href="#faq">FAQ</a>
     <a href="#contact">문의</a>
   </div>
@@ -396,20 +396,6 @@
       <h2>핵심 사업 & 브랜드</h2>
     </div>
     <div class="program-grid" id="programGrid">
-    </div>
-  </div>
-</div>
-
-<!-- ARCHIVE -->
-<div class="archive-section" id="archive">
-  <div class="archive-inner">
-    <div class="archive-header">
-      <div>
-        <div class="section-label">Archive</div>
-        <h2>숫자로 보는 외로움 아카이브</h2>
-      </div>
-    </div>
-    <div class="stats" id="archiveStats">
     </div>
   </div>
 </div>
@@ -457,6 +443,20 @@
   <div class="marquee-track row1" id="partnersRow1">
   </div>
   <div class="marquee-track row2" id="partnersRow2">
+  </div>
+</div>
+
+<!-- ARCHIVE -->
+<div class="archive-section" id="archive">
+  <div class="archive-inner">
+    <div class="archive-header">
+      <div>
+        <div class="section-label">Archive</div>
+        <h2>숫자로 보는 외로움 아카이브</h2>
+      </div>
+    </div>
+    <div class="stats" id="archiveStats">
+    </div>
   </div>
 </div>
 
@@ -614,6 +614,40 @@
     return real.map(function(p) { return '<div class="modal-photo"><img src="' + p + '" alt=""></div>'; }).join('');
   }
 
+  function animateCount(el) {
+    var target = Number(el.dataset.target) || 0;
+    var duration = 1300;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var current = Math.floor(eased * target);
+      el.textContent = current.toLocaleString('ko-KR');
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString('ko-KR');
+    }
+    requestAnimationFrame(step);
+  }
+
+  function initArchiveCountUp() {
+    var els = document.querySelectorAll('#archiveStats .num-value');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function(el) { el.textContent = Number(el.dataset.target).toLocaleString('ko-KR'); });
+      return;
+    }
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          animateCount(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    els.forEach(function(el) { observer.observe(el); });
+  }
+
   function renderSite(data) {
     siteData = data;
 
@@ -666,11 +700,13 @@
 
     // ARCHIVE STATS
     document.getElementById('archiveStats').innerHTML = data.archiveStats.map(function(s) {
+      var targetNum = parseInt(String(s.num).replace(/[^0-9]/g, ''), 10) || 0;
       return '<div class="stat">' +
-        '<div class="num' + (s.small ? ' small' : '') + '">' + s.num + '<span class="unit">' + s.unit + '</span></div>' +
+        '<div class="num' + (s.small ? ' small' : '') + '"><span class="num-value" data-target="' + targetNum + '">0</span><span class="unit">' + s.unit + '</span></div>' +
         '<div class="label">' + s.label + '</div>' +
         '</div>';
     }).join('');
+    initArchiveCountUp();
 
     // GALLERY
     document.getElementById('galleryGrid').innerHTML = data.projects.map(function(p, i) {
