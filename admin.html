@@ -8,34 +8,38 @@
   * { box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Noto Sans KR', sans-serif;
-    background: #F7F3EF; color: #2A1F40; margin: 0; padding: 40px 20px;
+    background: #F7F3EF; color: #2A1F40; margin: 0; padding: 40px 20px 100px;
   }
-  .wrap { max-width: 760px; margin: 0 auto; }
+  .wrap { max-width: 880px; margin: 0 auto; }
   h1 { font-size: 26px; font-weight: 900; color: #5B3E96; margin-bottom: 6px; }
-  .sub { color: #766E80; font-size: 14px; margin-bottom: 32px; }
+  .sub { color: #766E80; font-size: 14px; margin-bottom: 28px; }
   .card {
     background: #fff; border: 1px solid #EFE6E0; border-radius: 16px;
     padding: 28px; margin-bottom: 24px;
   }
   .card h2 { font-size: 17px; font-weight: 800; margin: 0 0 18px; color: #2A1F40; }
+  .card h3 { font-size: 14px; font-weight: 700; margin: 0 0 12px; color: #5B3E96; }
   label { display: block; font-size: 13px; font-weight: 700; color: #5B3E96; margin-bottom: 6px; margin-top: 16px; }
   label:first-of-type { margin-top: 0; }
-  input[type=text], input[type=password], input[type=date], select {
+  input[type=text], input[type=password], input[type=date], input[type=email], select, textarea {
     width: 100%; padding: 11px 14px; border: 1.5px solid #EFE6E0; border-radius: 10px;
     font-size: 14px; font-family: inherit; color: #2A1F40; background: #FBF9F7;
   }
+  textarea { resize: vertical; min-height: 70px; line-height: 1.6; }
   input[type=file] { width: 100%; padding: 10px 0; font-size: 13px; }
-  input:focus, select:focus { outline: none; border-color: #5B3E96; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #5B3E96; }
   .row { display: flex; gap: 12px; }
   .row > div { flex: 1; }
   button {
-    margin-top: 22px; width: 100%; padding: 14px; border: none; border-radius: 10px;
-    background: #5B3E96; color: #fff; font-size: 15px; font-weight: 700;
+    padding: 13px 20px; border: none; border-radius: 10px;
+    background: #5B3E96; color: #fff; font-size: 14px; font-weight: 700;
     cursor: pointer; font-family: inherit; transition: opacity 0.2s;
   }
+  button.wide { width: 100%; margin-top: 22px; padding: 14px; font-size: 15px; }
   button:hover { opacity: 0.9; }
   button:disabled { opacity: 0.5; cursor: not-allowed; }
   button.secondary { background: #fff; color: #C8694A; border: 1.5px solid #E8C4B5; }
+  button.ghost { background: #F0EBFA; color: #5B3E96; }
   .hint { font-size: 12px; color: #9B8AA8; margin-top: 6px; line-height: 1.6; }
   .status { margin-top: 14px; font-size: 13px; padding: 12px 14px; border-radius: 10px; display: none; }
   .status.ok { display: block; background: #EAF6EC; color: #2E7D4F; }
@@ -49,17 +53,45 @@
   .item-row .meta { font-size: 13px; }
   .item-row .meta .tag { color: #E8694A; font-weight: 700; font-size: 11px; margin-right: 8px; }
   .item-row .meta .date { color: #9B8AA8; font-size: 11px; margin-left: 8px; }
-  .item-row button { width: auto; margin: 0; padding: 6px 14px; font-size: 12px; }
-  .locked .card:not(.setup-card) { opacity: 0.4; pointer-events: none; }
+  .item-row button { padding: 6px 14px; font-size: 12px; }
+  .locked .lockable { opacity: 0.4; pointer-events: none; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+  .tab-btn {
+    background: #fff; color: #5B3E96; border: 1.5px solid #EFE6E0;
+    padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 700;
+  }
+  .tab-btn.active { background: #5B3E96; color: #fff; border-color: #5B3E96; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .subitem {
+    border: 1.5px solid #EFE6E0; border-radius: 14px; padding: 20px; margin-bottom: 16px; background: #FBF9F7;
+  }
+  .subitem-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .subitem-head strong { font-size: 13px; color: #766E80; }
+  .chip-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .chip {
+    display: flex; align-items: center; gap: 6px;
+    background: #fff; border: 1px solid #EFE6E0; border-radius: 999px;
+    padding: 6px 8px 6px 14px; font-size: 13px;
+  }
+  .chip button { padding: 2px 8px; font-size: 11px; border-radius: 999px; }
+  .add-inline { display: flex; gap: 8px; margin-top: 12px; }
+  .add-inline input { flex: 1; }
+  .add-inline button { flex-shrink: 0; }
+  .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px; }
+  .photo-grid div { font-size: 11px; color: #9B8AA8; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>마음쓰임 콘텐츠 관리자</h1>
-  <div class="sub">"마음쓰임 이야기" 섹션에 새 글/사진을 올리고 관리합니다.</div>
+  <div class="sub">홈페이지의 모든 텍스트·사진·글을 여기서 관리합니다.</div>
 
-  <div class="card setup-card">
-    <h2>1. GitHub 연결</h2>
+  <div class="card">
+    <h2>GitHub 연결</h2>
     <label>GitHub 저장소 (owner/repo)</label>
     <input type="text" id="repoInput" placeholder="mindtoolslab/mindtools" value="mindtoolslab/mindtools">
     <label>브랜치</label>
@@ -67,50 +99,148 @@
     <label>Personal Access Token</label>
     <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx">
     <div class="hint">
-      GitHub → 설정(Settings) → Developer settings → Personal access tokens → Fine-grained tokens 에서 발급받으세요.<br>
-      해당 저장소(mindtools)에 대해 <b>Contents: Read and write</b> 권한만 주면 됩니다.<br>
-      이 토큰은 도연 님 브라우저에만 저장되며(localStorage), 어디로도 전송되지 않습니다 — GitHub API에 직접 요청할 때만 사용됩니다.
+      해당 저장소에 대해 <b>Contents: Read and write</b> 권한의 Fine-grained token을 발급받아 입력하세요.<br>
+      이 토큰은 브라우저에만 저장되며, 어디로도 전송되지 않습니다 — GitHub API에 직접 요청할 때만 사용됩니다.
     </div>
-    <button onclick="connect()">연결하기</button>
+    <button class="wide" onclick="connect()">연결하기</button>
     <div id="connectStatus" class="status"></div>
   </div>
 
   <div id="mainArea" class="locked">
-    <div class="card">
-      <h2>2. 새 글 작성</h2>
-      <label>카테고리</label>
-      <select id="catSelect">
-        <option value="story">외로움 이야기</option>
-        <option value="field">현장 리포트</option>
-        <option value="interview">인터뷰</option>
-      </select>
-      <label>제목</label>
-      <input type="text" id="titleInput" placeholder="글 제목을 입력하세요">
-      <div class="row">
-        <div>
-          <label>날짜</label>
-          <input type="text" id="dateInput" placeholder="2026.07">
-        </div>
-        <div>
-          <label>사진 (선택)</label>
-          <input type="file" id="imageInput" accept="image/*">
-        </div>
-      </div>
-      <button onclick="submitPost()" id="submitBtn">저장하고 GitHub에 반영</button>
-      <div id="postStatus" class="status"></div>
+    <div class="tabs lockable">
+      <button class="tab-btn active" data-tab="content" onclick="showTab('content')">마음쓰임 이야기</button>
+      <button class="tab-btn" data-tab="hero" onclick="showTab('hero')">히어로</button>
+      <button class="tab-btn" data-tab="programs" onclick="showTab('programs')">핵심 사업</button>
+      <button class="tab-btn" data-tab="projects" onclick="showTab('projects')">프로젝트</button>
+      <button class="tab-btn" data-tab="partners" onclick="showTab('partners')">협력기관</button>
+      <button class="tab-btn" data-tab="archive" onclick="showTab('archive')">아카이브 숫자</button>
+      <button class="tab-btn" data-tab="faq" onclick="showTab('faq')">FAQ</button>
+      <button class="tab-btn" data-tab="footer" onclick="showTab('footer')">푸터</button>
     </div>
 
-    <div class="card">
-      <h2>3. 기존 글 목록</h2>
-      <div class="item-list" id="itemList">
-        <div class="hint">불러오는 중...</div>
+    <!-- ===== CONTENT (content.json) ===== -->
+    <div class="tab-panel active lockable" id="panel-content">
+      <div class="card">
+        <h2>새 글 작성</h2>
+        <label>카테고리</label>
+        <select id="catSelect">
+          <option value="story">외로움 이야기</option>
+          <option value="field">현장 리포트</option>
+          <option value="interview">인터뷰</option>
+        </select>
+        <label>제목</label>
+        <input type="text" id="titleInput" placeholder="글 제목을 입력하세요">
+        <div class="row">
+          <div><label>날짜</label><input type="text" id="dateInput" placeholder="2026.07"></div>
+          <div><label>사진 (선택)</label><input type="file" id="imageInput" accept="image/*"></div>
+        </div>
+        <button class="wide" onclick="submitPost()" id="submitBtn">저장하고 GitHub에 반영</button>
+        <div id="postStatus" class="status"></div>
+      </div>
+      <div class="card">
+        <h2>기존 글 목록</h2>
+        <div class="item-list" id="itemList"><div class="hint">불러오는 중...</div></div>
+      </div>
+    </div>
+
+    <!-- ===== HERO ===== -->
+    <div class="tab-panel lockable" id="panel-hero">
+      <div class="card">
+        <h2>히어로 섹션</h2>
+        <label>상단 태그 (Mind Tools Lab)</label>
+        <input type="text" id="heroTag">
+        <label>메인 타이틀 (HTML 가능, &lt;br&gt;로 줄바꿈, &lt;span class="bold"&gt;강조&lt;/span&gt;)</label>
+        <textarea id="heroTitleHtml" rows="4"></textarea>
+        <label>버튼 문구</label>
+        <input type="text" id="heroCtaText">
+        <button class="wide" onclick="saveSite('hero')">히어로 저장</button>
+        <div id="heroStatus" class="status"></div>
+      </div>
+    </div>
+
+    <!-- ===== PROGRAMS ===== -->
+    <div class="tab-panel lockable" id="panel-programs">
+      <div class="card">
+        <h2>핵심 사업 & 브랜드 (카드 3개)</h2>
+        <div id="programsList"></div>
+        <button class="ghost wide" onclick="addProgram()">+ 프로그램 카드 추가</button>
+        <button class="wide" onclick="saveSite('programs')">핵심 사업 저장</button>
+        <div id="programsStatus" class="status"></div>
+      </div>
+    </div>
+
+    <!-- ===== PROJECTS ===== -->
+    <div class="tab-panel lockable" id="panel-projects">
+      <div class="card">
+        <h2>프로젝트 (히어로 슬라이드 · 갤러리 · 모달 공용)</h2>
+        <div class="hint" style="margin-bottom:16px;">여기서 수정하면 히어로 슬라이드쇼, 진행된 프로젝트 갤러리, 클릭 시 뜨는 상세 모달에 모두 반영됩니다.</div>
+        <div id="projectsList"></div>
+        <button class="ghost wide" onclick="addProject()">+ 프로젝트 추가</button>
+        <button class="wide" onclick="saveSite('projects')">프로젝트 저장</button>
+        <div id="projectsStatus" class="status"></div>
+      </div>
+    </div>
+
+    <!-- ===== PARTNERS ===== -->
+    <div class="tab-panel lockable" id="panel-partners">
+      <div class="card">
+        <h3>줄 1 (왼쪽으로 흐름)</h3>
+        <div class="chip-list" id="partnersRow1Chips"></div>
+        <div class="add-inline">
+          <input type="text" id="partnersRow1New" placeholder="기관명 입력">
+          <button onclick="addPartner(1)">추가</button>
+        </div>
+        <h3 style="margin-top:24px;">줄 2 (오른쪽으로 흐름)</h3>
+        <div class="chip-list" id="partnersRow2Chips"></div>
+        <div class="add-inline">
+          <input type="text" id="partnersRow2New" placeholder="기관명 입력">
+          <button onclick="addPartner(2)">추가</button>
+        </div>
+        <button class="wide" onclick="saveSite('partners')">협력기관 저장</button>
+        <div id="partnersStatus" class="status"></div>
+      </div>
+    </div>
+
+    <!-- ===== ARCHIVE ===== -->
+    <div class="tab-panel lockable" id="panel-archive">
+      <div class="card">
+        <h2>숫자로 보는 외로움 아카이브</h2>
+        <div id="archiveList"></div>
+        <button class="wide" onclick="saveSite('archive')">아카이브 숫자 저장</button>
+        <div id="archiveStatus" class="status"></div>
+      </div>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <div class="tab-panel lockable" id="panel-faq">
+      <div class="card">
+        <h2>자주 묻는 질문</h2>
+        <div id="faqEditList"></div>
+        <button class="ghost wide" onclick="addFaq()">+ 질문 추가</button>
+        <button class="wide" onclick="saveSite('faq')">FAQ 저장</button>
+        <div id="faqStatus" class="status"></div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="tab-panel lockable" id="panel-footer">
+      <div class="card">
+        <h2>푸터 / 문의</h2>
+        <label>제목 (HTML, &lt;br&gt; 가능)</label>
+        <textarea id="footerTitleHtml" rows="2"></textarea>
+        <label>설명 (HTML, &lt;br&gt; 가능)</label>
+        <textarea id="footerDescHtml" rows="3"></textarea>
+        <label>이메일</label>
+        <input type="email" id="footerEmail">
+        <button class="wide" onclick="saveSite('footer')">푸터 저장</button>
+        <div id="footerStatus" class="status"></div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  var state = { owner: '', repo: '', branch: 'main', token: '', sha: null, items: [] };
+  var state = { owner: '', repo: '', branch: 'main', token: '', sha: null, items: [], siteSha: null, site: null };
 
   window.addEventListener('DOMContentLoaded', function() {
     var saved = localStorage.getItem('mindtools_admin_config');
@@ -125,6 +255,11 @@
     }
   });
 
+  function showTab(name) {
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.tab === name); });
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.toggle('active', p.id === 'panel-' + name); });
+  }
+
   function showStatus(id, type, msg) {
     var el = document.getElementById(id);
     el.className = 'status ' + type;
@@ -132,10 +267,33 @@
   }
 
   function ghHeaders() {
-    return {
-      'Authorization': 'Bearer ' + state.token,
-      'Accept': 'application/vnd.github+json'
-    };
+    return { 'Authorization': 'Bearer ' + state.token, 'Accept': 'application/vnd.github+json' };
+  }
+
+  function b64EncodeUnicode(str) { return btoa(unescape(encodeURIComponent(str))); }
+  function b64DecodeUnicode(str) { return decodeURIComponent(escape(atob(str.replace(/\n/g, '')))); }
+
+  function fileToBase64(file) {
+    return new Promise(function(resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function() { resolve(reader.result.split(',')[1]); };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function uploadImage(file, namePrefix) {
+    return fileToBase64(file).then(function(b64) {
+      var ext = file.name.split('.').pop();
+      var path = 'images/' + namePrefix + '-' + Date.now() + '.' + ext;
+      return fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/' + path, {
+        method: 'PUT', headers: ghHeaders(),
+        body: JSON.stringify({ message: '이미지 업로드: ' + path, content: b64, branch: state.branch })
+      }).then(function(res) {
+        if (!res.ok) throw new Error('이미지 업로드 실패 (status ' + res.status + ')');
+        return res.json();
+      }).then(function(data) { return data.content.download_url; });
+    });
   }
 
   function connect() {
@@ -160,58 +318,34 @@
         showStatus('connectStatus', 'ok', '연결되었습니다: ' + repoVal);
         document.getElementById('mainArea').classList.remove('locked');
         loadContentJson();
+        loadSiteJson();
       })
-      .catch(function(err) {
-        showStatus('connectStatus', 'err', err.message);
-      });
+      .catch(function(err) { showStatus('connectStatus', 'err', err.message); });
   }
 
+  /* ================= CONTENT (마음쓰임 이야기) ================= */
   function loadContentJson() {
     document.getElementById('itemList').innerHTML = '<div class="hint">불러오는 중...</div>';
     fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/content.json?ref=' + state.branch, { headers: ghHeaders() })
-      .then(function(res) {
-        if (!res.ok) throw new Error('content.json을 찾을 수 없습니다 (status ' + res.status + ')');
-        return res.json();
-      })
+      .then(function(res) { if (!res.ok) throw new Error('content.json을 찾을 수 없습니다 (status ' + res.status + ')'); return res.json(); })
       .then(function(data) {
         state.sha = data.sha;
-        var decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
-        state.items = JSON.parse(decoded);
+        state.items = JSON.parse(b64DecodeUnicode(data.content));
         renderItemList();
       })
-      .catch(function(err) {
-        document.getElementById('itemList').innerHTML = '<div class="hint">' + err.message + '</div>';
-      });
+      .catch(function(err) { document.getElementById('itemList').innerHTML = '<div class="hint">' + err.message + '</div>'; });
   }
 
   function renderItemList() {
     var catLabels = { story: '외로움 이야기', field: '현장 리포트', interview: '인터뷰' };
     var list = document.getElementById('itemList');
-    if (!state.items.length) {
-      list.innerHTML = '<div class="hint">아직 등록된 글이 없습니다.</div>';
-      return;
-    }
+    if (!state.items.length) { list.innerHTML = '<div class="hint">아직 등록된 글이 없습니다.</div>'; return; }
     var sorted = state.items.slice().sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
     list.innerHTML = sorted.map(function(item) {
-      return '<div class="item-row">' +
-        '<div class="meta"><span class="tag">' + (item.categoryLabel || catLabels[item.category] || '') + '</span>' +
+      return '<div class="item-row"><div class="meta"><span class="tag">' + (item.categoryLabel || catLabels[item.category] || '') + '</span>' +
         item.title + '<span class="date">' + item.date + '</span></div>' +
-        '<button class="secondary" onclick="deleteItem(\'' + item.id + '\')">삭제</button>' +
-        '</div>';
+        '<button class="secondary" onclick="deleteItem(\'' + item.id + '\')">삭제</button></div>';
     }).join('');
-  }
-
-  function fileToBase64(file) {
-    return new Promise(function(resolve, reject) {
-      var reader = new FileReader();
-      reader.onload = function() { resolve(reader.result.split(',')[1]); };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function b64EncodeUnicode(str) {
-    return btoa(unescape(encodeURIComponent(str)));
   }
 
   function submitPost() {
@@ -221,64 +355,25 @@
     var date = document.getElementById('dateInput').value.trim();
     var fileInput = document.getElementById('imageInput');
     var file = fileInput.files[0];
-
-    if (!title || !date) {
-      showStatus('postStatus', 'err', '제목과 날짜를 입력해주세요.');
-      return;
-    }
+    if (!title || !date) { showStatus('postStatus', 'err', '제목과 날짜를 입력해주세요.'); return; }
 
     var btn = document.getElementById('submitBtn');
     btn.disabled = true;
     showStatus('postStatus', 'loading', '저장하는 중...');
 
     var newItem = {
-      id: category + '-' + Date.now(),
-      category: category,
-      categoryLabel: catLabels[category],
-      title: title,
-      date: date,
-      image: '',
-      colorClass: 'k' + (((state.items.length) % 6) + 1)
+      id: category + '-' + Date.now(), category: category, categoryLabel: catLabels[category],
+      title: title, date: date, image: '', colorClass: 'k' + ((state.items.length % 6) + 1)
     };
 
-    var imageStep = Promise.resolve();
-    if (file) {
-      imageStep = fileToBase64(file).then(function(b64) {
-        var ext = file.name.split('.').pop();
-        var path = 'images/' + newItem.id + '.' + ext;
-        return fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/' + path, {
-          method: 'PUT',
-          headers: ghHeaders(),
-          body: JSON.stringify({
-            message: '이미지 추가: ' + title,
-            content: b64,
-            branch: state.branch
-          })
-        }).then(function(res) {
-          if (!res.ok) throw new Error('이미지 업로드 실패 (status ' + res.status + ')');
-          return res.json();
-        }).then(function(data) {
-          newItem.image = data.content.download_url;
-        });
-      });
-    }
+    var imageStep = file ? uploadImage(file, newItem.id).then(function(url) { newItem.image = url; }) : Promise.resolve();
 
     imageStep.then(function() {
       var updated = state.items.concat([newItem]);
-      var content = JSON.stringify(updated, null, 2);
       return fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/content.json', {
-        method: 'PUT',
-        headers: ghHeaders(),
-        body: JSON.stringify({
-          message: '새 글 추가: ' + title,
-          content: b64EncodeUnicode(content),
-          sha: state.sha,
-          branch: state.branch
-        })
-      }).then(function(res) {
-        if (!res.ok) throw new Error('content.json 업데이트 실패 (status ' + res.status + ')');
-        return res.json();
-      });
+        method: 'PUT', headers: ghHeaders(),
+        body: JSON.stringify({ message: '새 글 추가: ' + title, content: b64EncodeUnicode(JSON.stringify(updated, null, 2)), sha: state.sha, branch: state.branch })
+      }).then(function(res) { if (!res.ok) throw new Error('content.json 업데이트 실패 (status ' + res.status + ')'); return res.json(); });
     }).then(function(data) {
       state.sha = data.content.sha;
       state.items.push(newItem);
@@ -287,37 +382,223 @@
       document.getElementById('titleInput').value = '';
       document.getElementById('dateInput').value = '';
       fileInput.value = '';
-    }).catch(function(err) {
-      showStatus('postStatus', 'err', err.message);
-    }).finally(function() {
-      btn.disabled = false;
-    });
+    }).catch(function(err) { showStatus('postStatus', 'err', err.message); })
+      .finally(function() { btn.disabled = false; });
   }
 
   function deleteItem(id) {
     if (!confirm('이 글을 삭제할까요?')) return;
     var updated = state.items.filter(function(i) { return i.id !== id; });
-    var content = JSON.stringify(updated, null, 2);
     fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/content.json', {
-      method: 'PUT',
-      headers: ghHeaders(),
-      body: JSON.stringify({
-        message: '글 삭제: ' + id,
-        content: b64EncodeUnicode(content),
-        sha: state.sha,
-        branch: state.branch
+      method: 'PUT', headers: ghHeaders(),
+      body: JSON.stringify({ message: '글 삭제: ' + id, content: b64EncodeUnicode(JSON.stringify(updated, null, 2)), sha: state.sha, branch: state.branch })
+    }).then(function(res) { if (!res.ok) throw new Error('삭제 실패 (status ' + res.status + ')'); return res.json(); })
+      .then(function(data) { state.sha = data.content.sha; state.items = updated; renderItemList(); })
+      .catch(function(err) { alert(err.message); });
+  }
+
+  /* ================= SITE-DATA.JSON (전체 섹션) ================= */
+  function loadSiteJson() {
+    fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/site-data.json?ref=' + state.branch, { headers: ghHeaders() })
+      .then(function(res) { if (!res.ok) throw new Error('site-data.json을 찾을 수 없습니다 (status ' + res.status + ')'); return res.json(); })
+      .then(function(data) {
+        state.siteSha = data.sha;
+        state.site = JSON.parse(b64DecodeUnicode(data.content));
+        renderAllSections();
       })
-    }).then(function(res) {
-      if (!res.ok) throw new Error('삭제 실패 (status ' + res.status + ')');
-      return res.json();
-    }).then(function(data) {
-      state.sha = data.content.sha;
-      state.items = updated;
-      renderItemList();
-    }).catch(function(err) {
-      alert(err.message);
+      .catch(function(err) { console.error(err); });
+  }
+
+  function renderAllSections() {
+    var s = state.site;
+    document.getElementById('heroTag').value = s.hero.tag;
+    document.getElementById('heroTitleHtml').value = s.hero.titleHtml;
+    document.getElementById('heroCtaText').value = s.hero.ctaText;
+
+    renderPrograms();
+    renderProjects();
+    renderPartners();
+    renderArchive();
+    renderFaqEdit();
+
+    document.getElementById('footerTitleHtml').value = s.footer.titleHtml;
+    document.getElementById('footerDescHtml').value = s.footer.descHtml;
+    document.getElementById('footerEmail').value = s.footer.email;
+  }
+
+  function saveSite(sectionLabel) {
+    var s = state.site;
+    // pull latest form values into state.site before saving
+    s.hero.tag = document.getElementById('heroTag').value;
+    s.hero.titleHtml = document.getElementById('heroTitleHtml').value;
+    s.hero.ctaText = document.getElementById('heroCtaText').value;
+    collectPrograms();
+    collectProjects();
+    collectArchive();
+    collectFaq();
+    s.footer.titleHtml = document.getElementById('footerTitleHtml').value;
+    s.footer.descHtml = document.getElementById('footerDescHtml').value;
+    s.footer.email = document.getElementById('footerEmail').value;
+
+    var statusId = sectionLabel + 'Status';
+    showStatus(statusId, 'loading', '저장하는 중...');
+    fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/site-data.json', {
+      method: 'PUT', headers: ghHeaders(),
+      body: JSON.stringify({ message: sectionLabel + ' 섹션 업데이트', content: b64EncodeUnicode(JSON.stringify(s, null, 2)), sha: state.siteSha, branch: state.branch })
+    }).then(function(res) { if (!res.ok) throw new Error('저장 실패 (status ' + res.status + ')'); return res.json(); })
+      .then(function(data) { state.siteSha = data.content.sha; showStatus(statusId, 'ok', '저장되었습니다! 잠시 후 사이트에 반영됩니다.'); })
+      .catch(function(err) { showStatus(statusId, 'err', err.message); });
+  }
+
+  /* ---- Programs ---- */
+  function renderPrograms() {
+    document.getElementById('programsList').innerHTML = state.site.programs.map(function(p, i) {
+      return '<div class="subitem"><div class="subitem-head"><strong>카드 ' + (i + 1) + '</strong>' +
+        '<button class="secondary" onclick="removeProgram(' + i + ')">삭제</button></div>' +
+        '<label>태그</label><input type="text" data-prog="' + i + '" data-field="tag" value="' + escAttr(p.tag) + '">' +
+        '<label>제목</label><input type="text" data-prog="' + i + '" data-field="title" value="' + escAttr(p.title) + '">' +
+        '<label>설명</label><textarea data-prog="' + i + '" data-field="desc" rows="3">' + escHtml(p.desc) + '</textarea>' +
+        '<label>연결할 프로젝트 ID (모달, 예: modal1)</label><input type="text" data-prog="' + i + '" data-field="linkTo" value="' + escAttr(p.linkTo) + '">' +
+        '</div>';
+    }).join('');
+  }
+  function collectPrograms() {
+    document.querySelectorAll('[data-prog]').forEach(function(el) {
+      var i = parseInt(el.dataset.prog, 10), field = el.dataset.field;
+      if (state.site.programs[i]) state.site.programs[i][field] = el.value;
     });
   }
+  function addProgram() {
+    collectPrograms();
+    state.site.programs.push({ tag: '새 카테고리', title: '새 프로그램', desc: '설명을 입력하세요.', linkTo: 'modal1' });
+    renderPrograms();
+  }
+  function removeProgram(i) {
+    collectPrograms();
+    state.site.programs.splice(i, 1);
+    renderPrograms();
+  }
+
+  /* ---- Projects ---- */
+  function renderProjects() {
+    document.getElementById('projectsList').innerHTML = state.site.projects.map(function(p, i) {
+      return '<div class="subitem"><div class="subitem-head"><strong>' + p.id + '</strong>' +
+        '<button class="secondary" onclick="removeProject(' + i + ')">삭제</button></div>' +
+        '<label>제목</label><input type="text" data-proj="' + i + '" data-field="title" value="' + escAttr(p.title) + '">' +
+        '<div class="row">' +
+        '<div><label>연도/기간 표시 (갤러리)</label><input type="text" data-proj="' + i + '" data-field="yearLabel" value="' + escAttr(p.yearLabel) + '"></div>' +
+        '<div><label>슬라이드 소개 (히어로)</label><input type="text" data-proj="' + i + '" data-field="slideSub" value="' + escAttr(p.slideSub) + '"></div>' +
+        '</div>' +
+        '<label>모달 부제</label><input type="text" data-proj="' + i + '" data-field="modalSub" value="' + escAttr(p.modalSub) + '">' +
+        '<label>모달 상세 설명</label><textarea data-proj="' + i + '" data-field="modalDesc" rows="3">' + escHtml(p.modalDesc) + '</textarea>' +
+        '<label>사진 (최대 4장, 첫 사진이 히어로/갤러리 대표 이미지로 사용됩니다)</label>' +
+        '<input type="file" accept="image/*" multiple data-proj-photo="' + i + '">' +
+        '<div class="photo-grid">' + (p.photos || []).map(function(url, pi) { return '<div>' + (url ? '사진 ' + (pi + 1) + ' 등록됨' : '사진 ' + (pi + 1) + ' 없음') + '</div>'; }).join('') + '</div>' +
+        '</div>';
+    }).join('');
+
+    document.querySelectorAll('[data-proj-photo]').forEach(function(input) {
+      input.addEventListener('change', function() {
+        var i = parseInt(input.dataset.projPhoto, 10);
+        var files = Array.from(input.files).slice(0, 4);
+        if (!files.length) return;
+        showStatus('projectsStatus', 'loading', '사진 업로드 중...');
+        Promise.all(files.map(function(f) { return uploadImage(f, state.site.projects[i].id); }))
+          .then(function(urls) {
+            collectProjects();
+            state.site.projects[i].photos = urls.concat(state.site.projects[i].photos || []).slice(0, 4);
+            renderProjects();
+            showStatus('projectsStatus', 'ok', '사진이 반영되었습니다. "프로젝트 저장" 버튼을 눌러 GitHub에 반영하세요.');
+          })
+          .catch(function(err) { showStatus('projectsStatus', 'err', err.message); });
+      });
+    });
+  }
+  function collectProjects() {
+    document.querySelectorAll('[data-proj]').forEach(function(el) {
+      var i = parseInt(el.dataset.proj, 10), field = el.dataset.field;
+      if (state.site.projects[i]) state.site.projects[i][field] = el.value;
+    });
+  }
+  function addProject() {
+    collectProjects();
+    var n = state.site.projects.length + 1;
+    var newId = 'modal' + Date.now();
+    state.site.projects.push({ id: newId, title: '새 프로젝트', yearLabel: '2026', slideSub: '2026', modalSub: '2026', modalDesc: '프로젝트 설명을 입력해 주세요.', photos: ['', '', '', ''] });
+    renderProjects();
+  }
+  function removeProject(i) {
+    collectProjects();
+    state.site.projects.splice(i, 1);
+    renderProjects();
+  }
+
+  /* ---- Partners ---- */
+  function renderPartners() {
+    ['1', '2'].forEach(function(n) {
+      var arr = state.site['partnersRow' + n];
+      document.getElementById('partnersRow' + n + 'Chips').innerHTML = arr.map(function(name, i) {
+        return '<span class="chip">' + escHtml(name) + '<button class="secondary" onclick="removePartner(' + n + ',' + i + ')">✕</button></span>';
+      }).join('');
+    });
+  }
+  function addPartner(row) {
+    var input = document.getElementById('partnersRow' + row + 'New');
+    var val = input.value.trim();
+    if (!val) return;
+    state.site['partnersRow' + row].push(val);
+    input.value = '';
+    renderPartners();
+  }
+  function removePartner(row, i) {
+    state.site['partnersRow' + row].splice(i, 1);
+    renderPartners();
+  }
+
+  /* ---- Archive stats ---- */
+  function renderArchive() {
+    document.getElementById('archiveList').innerHTML = state.site.archiveStats.map(function(st, i) {
+      return '<div class="subitem"><div class="row">' +
+        '<div><label>숫자</label><input type="text" data-arch="' + i + '" data-field="num" value="' + escAttr(st.num) + '"></div>' +
+        '<div><label>단위</label><input type="text" data-arch="' + i + '" data-field="unit" value="' + escAttr(st.unit) + '"></div>' +
+        '</div><label>라벨 (&lt;br&gt;로 줄바꿈)</label><input type="text" data-arch="' + i + '" data-field="label" value="' + escAttr(st.label) + '"></div>';
+    }).join('');
+  }
+  function collectArchive() {
+    document.querySelectorAll('[data-arch]').forEach(function(el) {
+      var i = parseInt(el.dataset.arch, 10), field = el.dataset.field;
+      if (state.site.archiveStats[i]) state.site.archiveStats[i][field] = el.value;
+    });
+  }
+
+  /* ---- FAQ ---- */
+  function renderFaqEdit() {
+    document.getElementById('faqEditList').innerHTML = state.site.faq.map(function(f, i) {
+      return '<div class="subitem"><div class="subitem-head"><strong>Q' + (i + 1) + '</strong>' +
+        '<button class="secondary" onclick="removeFaq(' + i + ')">삭제</button></div>' +
+        '<label>질문</label><input type="text" data-faq="' + i + '" data-field="q" value="' + escAttr(f.q) + '">' +
+        '<label>답변</label><textarea data-faq="' + i + '" data-field="a" rows="3">' + escHtml(f.a) + '</textarea></div>';
+    }).join('');
+  }
+  function collectFaq() {
+    document.querySelectorAll('[data-faq]').forEach(function(el) {
+      var i = parseInt(el.dataset.faq, 10), field = el.dataset.field;
+      if (state.site.faq[i]) state.site.faq[i][field] = el.value;
+    });
+  }
+  function addFaq() {
+    collectFaq();
+    state.site.faq.push({ q: '새 질문', a: '답변을 입력하세요.' });
+    renderFaqEdit();
+  }
+  function removeFaq(i) {
+    collectFaq();
+    state.site.faq.splice(i, 1);
+    renderFaqEdit();
+  }
+
+  function escAttr(str) { return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
+  function escHtml(str) { return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 </script>
 </body>
 </html>

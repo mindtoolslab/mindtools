@@ -383,79 +383,14 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-left">
-    <div class="hero-tag">Mind Tools Lab</div>
-    <h1>
-      <span class="bold">외로움과 감정</span><span class="thin">을</span><br>
-      <span class="thin">연구하며,</span><br>
-      <span class="bold">숲과 예술</span><span class="thin">로</span><br>
-      <span class="thin">관계를 잇습니다</span>
-    </h1>
-    <a href="#contact" class="hero-cta">협업 제안하기</a>
+    <div class="hero-tag" id="heroTag">Mind Tools Lab</div>
+    <h1 id="heroTitle"></h1>
+    <a href="#contact" class="hero-cta" id="heroCta">협업 제안하기</a>
   </div>
   <div class="hero-right">
     <div class="slideshow" id="slideshow">
-      <div class="slide active">
-        <div class="slide-bg"></div>
-        <div class="slide-overlay"></div>
-        <div class="slide-content">
-          <div class="slide-num">01 / 06</div>
-          <div class="slide-title">외로움 보관소</div>
-          <div class="slide-sub">2024 – 2025 · 15개 기관</div>
-        </div>
-      </div>
-      <div class="slide">
-        <div class="slide-bg"></div>
-        <div class="slide-overlay"></div>
-        <div class="slide-content">
-          <div class="slide-num">02 / 06</div>
-          <div class="slide-title">외로움 레시피</div>
-          <div class="slide-sub">2025 · 18회차</div>
-        </div>
-      </div>
-      <div class="slide">
-        <div class="slide-bg"></div>
-        <div class="slide-overlay"></div>
-        <div class="slide-content">
-          <div class="slide-num">03 / 06</div>
-          <div class="slide-title">FOR-REST CAMP</div>
-          <div class="slide-sub">충주 소나무숲</div>
-        </div>
-      </div>
-      <div class="slide">
-        <div class="slide-bg"></div>
-        <div class="slide-overlay"></div>
-        <div class="slide-content">
-          <div class="slide-num">04 / 06</div>
-          <div class="slide-title">다양섬 탐험대</div>
-          <div class="slide-sub">2024</div>
-        </div>
-      </div>
-      <div class="slide">
-        <div class="slide-bg"></div>
-        <div class="slide-overlay"></div>
-        <div class="slide-content">
-          <div class="slide-num">05 / 06</div>
-          <div class="slide-title">양안시차</div>
-          <div class="slide-sub">2021 · Tumblbug</div>
-        </div>
-      </div>
-      <div class="slide">
-        <div class="slide-bg"></div>
-        <div class="slide-overlay"></div>
-        <div class="slide-content">
-          <div class="slide-num">06 / 06</div>
-          <div class="slide-title">서울연결처방</div>
-          <div class="slide-sub">2026</div>
-        </div>
-      </div>
     </div>
-    <div class="slide-dots">
-      <button class="dot active" onclick="goSlide(0)"></button>
-      <button class="dot" onclick="goSlide(1)"></button>
-      <button class="dot" onclick="goSlide(2)"></button>
-      <button class="dot" onclick="goSlide(3)"></button>
-      <button class="dot" onclick="goSlide(4)"></button>
-      <button class="dot" onclick="goSlide(5)"></button>
+    <div class="slide-dots" id="slideDots">
     </div>
   </div>
 </div>
@@ -467,31 +402,7 @@
       <div class="section-label">Our Programs</div>
       <h2>핵심 사업 & 브랜드</h2>
     </div>
-    <div class="program-grid">
-      <div class="program-card c1">
-        <div class="program-card-img"><span class="program-card-tag">커뮤니티 프로그램</span></div>
-        <div class="program-card-body">
-          <h3>외로움 보관소</h3>
-          <p>시민이 자신의 외로움을 꺼내어 기록하고 분류하는 경험을 제공합니다. 데이터 기반 연차보고서와 팝업 전시로 외로움을 사회적 언어로 시각화합니다.</p>
-          <a href="#" class="program-card-cta" onclick="openModal('modal1'); return false;">자세히 보기 →</a>
-        </div>
-      </div>
-      <div class="program-card c2">
-        <div class="program-card-img"><span class="program-card-tag">문화예술교육</span></div>
-        <div class="program-card-body">
-          <h3>외로움 레시피</h3>
-          <p>외로움을 주제로 한 브런치 기반 문화예술교육 프로그램. 참여자가 자신의 외로움을 들여다보고 표현하는 시간을 제공합니다.</p>
-          <a href="#" class="program-card-cta" onclick="openModal('modal2'); return false;">자세히 보기 →</a>
-        </div>
-      </div>
-      <div class="program-card c3">
-        <div class="program-card-img"><span class="program-card-tag">자연 치유 프로그램</span></div>
-        <div class="program-card-body">
-          <h3>FOR-REST CAMP</h3>
-          <p>충주 소나무숲을 배경으로 한 자연 기반 회복 페스티벌. 소나무의 상징성과 회복 서사를 결합한 커리큘럼을 운영합니다.</p>
-          <a href="#" class="program-card-cta" onclick="openModal('modal3'); return false;">자세히 보기 →</a>
-        </div>
-      </div>
+    <div class="program-grid" id="programGrid">
     </div>
   </div>
 </div>
@@ -520,37 +431,9 @@
   <div class="partners-label">
     <div class="section-label" style="text-align:center;">Collaborators</div>
   </div>
-  <div class="marquee-track row1">
-    <span class="partner-badge">서울시</span>
-    <span class="partner-badge">문화체육관광부</span>
-    <span class="partner-badge">한국문화예술교육진흥원</span>
-    <span class="partner-badge">서울시복지재단</span>
-    <span class="partner-badge">강원도사회적경제지원센터</span>
-    <span class="partner-badge">태백시문화재단</span>
-    <span class="partner-badge">서울시공익활동지원센터</span>
-    <span class="partner-badge">서울시</span>
-    <span class="partner-badge">문화체육관광부</span>
-    <span class="partner-badge">한국문화예술교육진흥원</span>
-    <span class="partner-badge">서울시복지재단</span>
-    <span class="partner-badge">강원도사회적경제지원센터</span>
-    <span class="partner-badge">태백시문화재단</span>
-    <span class="partner-badge">서울시공익활동지원센터</span>
+  <div class="marquee-track row1" id="partnersRow1">
   </div>
-  <div class="marquee-track row2">
-    <span class="partner-badge">동대문문화재단</span>
-    <span class="partner-badge">노원문화원</span>
-    <span class="partner-badge">KT&G 상상플레닛</span>
-    <span class="partner-badge">산림힐링재단</span>
-    <span class="partner-badge">인천시</span>
-    <span class="partner-badge">춘천사회혁신센터</span>
-    <span class="partner-badge">블루버드씨</span>
-    <span class="partner-badge">동대문문화재단</span>
-    <span class="partner-badge">노원문화원</span>
-    <span class="partner-badge">KT&G 상상플레닛</span>
-    <span class="partner-badge">산림힐링재단</span>
-    <span class="partner-badge">인천시</span>
-    <span class="partner-badge">춘천사회혁신센터</span>
-    <span class="partner-badge">블루버드씨</span>
+  <div class="marquee-track row2" id="partnersRow2">
   </div>
 </div>
 
@@ -564,19 +447,7 @@
       </div>
       <div class="archive-year">2026</div>
     </div>
-    <div class="stats">
-      <div class="stat">
-        <div class="num small">1,360<span class="unit">명</span></div>
-        <div class="label">외로움 콘텐츠<br>총 참여인원</div>
-      </div>
-      <div class="stat">
-        <div class="num small">1,176<span class="unit">명</span></div>
-        <div class="label">외로움 보관소<br>참여자</div>
-      </div>
-      <div class="stat">
-        <div class="num">15<span class="unit">개</span></div>
-        <div class="label">외로움 보관소<br>설치 기관</div>
-      </div>
+    <div class="stats" id="archiveStats">
     </div>
   </div>
 </div>
@@ -590,151 +461,18 @@
     </div>
     <a href="#" class="more-btn">더보기 +</a>
   </div>
-  <div class="gallery-grid">
-    <div class="gallery-item p1" onclick="openModal('modal1')">
-      <div class="gallery-ph">
-        <div class="ph-title">외로움 보관소</div>
-        <div class="ph-year">2024 – 2025</div>
-      </div>
-      <div class="gallery-overlay"><span>자세히 보기 →</span></div>
-    </div>
-    <div class="gallery-item p2" onclick="openModal('modal2')">
-      <div class="gallery-ph">
-        <div class="ph-title">외로움 레시피</div>
-        <div class="ph-year">2025</div>
-      </div>
-      <div class="gallery-overlay"><span>자세히 보기 →</span></div>
-    </div>
-    <div class="gallery-item p3" onclick="openModal('modal3')">
-      <div class="gallery-ph">
-        <div class="ph-title">FOR-REST CAMP</div>
-        <div class="ph-year">충주 소나무숲</div>
-      </div>
-      <div class="gallery-overlay"><span>자세히 보기 →</span></div>
-    </div>
-    <div class="gallery-item p4" onclick="openModal('modal4')">
-      <div class="gallery-ph">
-        <div class="ph-title">다양섬 탐험대</div>
-        <div class="ph-year">2024</div>
-      </div>
-      <div class="gallery-overlay"><span>자세히 보기 →</span></div>
-    </div>
-    <div class="gallery-item p5" onclick="openModal('modal5')">
-      <div class="gallery-ph">
-        <div class="ph-title">양안시차</div>
-        <div class="ph-year">2021</div>
-      </div>
-      <div class="gallery-overlay"><span>자세히 보기 →</span></div>
-    </div>
-    <div class="gallery-item p6" onclick="openModal('modal6')">
-      <div class="gallery-ph">
-        <div class="ph-title">서울연결처방</div>
-        <div class="ph-year">2026</div>
-      </div>
-      <div class="gallery-overlay"><span>자세히 보기 →</span></div>
-    </div>
+  <div class="gallery-grid" id="galleryGrid">
   </div>
 </div>
 
 <!-- MODALS -->
-<div class="modal-bg" id="modal1" onclick="closeModal(event,'modal1')">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModalDirect('modal1')">✕</button>
-    <div class="modal-title">외로움 보관소</div>
-    <div class="modal-sub">2024 – 2025 · 15개 기관 · 참여자 1,176명</div>
-    <div class="modal-photos">
-      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
-      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
-    </div>
-    <div class="modal-desc">시민들이 자신의 외로움을 꺼내어 기록하고, 분류하고, 보관하는 경험을 제공하는 브랜드입니다. 팝업 전시, 워크숍, 데이터 기반 연차보고서를 통해 외로움을 사회적 언어로 시각화합니다.</div>
-  </div>
-</div>
-<div class="modal-bg" id="modal2" onclick="closeModal(event,'modal2')">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModalDirect('modal2')">✕</button>
-    <div class="modal-title">외로움 레시피</div>
-    <div class="modal-sub">2025 · 18회차 · 참여자 31명</div>
-    <div class="modal-photos">
-      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
-      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
-    </div>
-    <div class="modal-desc">외로움을 주제로 한 브런치 기반 문화예술교육 프로그램으로, 참여자들이 자신의 외로움을 들여다보고 표현하는 시간을 제공합니다.</div>
-  </div>
-</div>
-<div class="modal-bg" id="modal3" onclick="closeModal(event,'modal3')">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModalDirect('modal3')">✕</button>
-    <div class="modal-title">FOR-REST CAMP</div>
-    <div class="modal-sub">충주 소나무숲 · 자연 기반 회복 페스티벌</div>
-    <div class="modal-photos">
-      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
-      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
-    </div>
-    <div class="modal-desc">충주 소나무숲을 배경으로 한 자연 기반 회복 페스티벌입니다. 소나무의 상징성과 외로움 회복 서사를 결합한 커리큘럼을 운영합니다.</div>
-  </div>
-</div>
-<div class="modal-bg" id="modal4" onclick="closeModal(event,'modal4')">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModalDirect('modal4')">✕</button>
-    <div class="modal-title">다양섬 탐험대</div>
-    <div class="modal-sub">2024</div>
-    <div class="modal-photos">
-      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
-      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
-    </div>
-    <div class="modal-desc">프로젝트 설명을 입력해 주세요.</div>
-  </div>
-</div>
-<div class="modal-bg" id="modal5" onclick="closeModal(event,'modal5')">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModalDirect('modal5')">✕</button>
-    <div class="modal-title">양안시차</div>
-    <div class="modal-sub">2021 · Tumblbug 크라우드펀딩</div>
-    <div class="modal-photos">
-      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
-      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
-    </div>
-    <div class="modal-desc">1인가구를 대상으로 한 카드형 콘텐츠 프로젝트입니다. Tumblbug 크라우드펀딩으로 진행되었습니다.</div>
-  </div>
-</div>
-<div class="modal-bg" id="modal6" onclick="closeModal(event,'modal6')">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModalDirect('modal6')">✕</button>
-    <div class="modal-title">서울연결처방</div>
-    <div class="modal-sub">2026 · 서울시 연계 프로그램</div>
-    <div class="modal-photos">
-      <div class="modal-photo">사진 1</div><div class="modal-photo">사진 2</div>
-      <div class="modal-photo">사진 3</div><div class="modal-photo">사진 4</div>
-    </div>
-    <div class="modal-desc">서울연결처방 사업 연계 프로그램으로, 외로움 레시피를 기반으로 한 문화예술 프로그램을 운영합니다.</div>
-  </div>
-</div>
+<div id="modalsContainer"></div>
 
 <!-- FAQ -->
 <div class="section" id="faq">
   <div class="section-label">FAQ</div>
   <h2 style="font-size:38px;font-weight:900;color:#5B3E96;margin-bottom:40px;">자주 묻는 질문</h2>
-  <div class="faq-list">
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-question"><span>마음쓰임은 어떤 단체인가요?</span><span class="faq-icon">+</span></div>
-      <div class="faq-answer"><p>마음쓰임 주식회사는 외로움과 감정을 연구하며, 숲과 예술을 매개로 사람과 사람 사이의 관계를 잇는 활동을 하는 단체입니다. 외로움 보관소, 외로움 레시피, FOR-REST CAMP 등 다양한 프로그램과 브랜드를 운영하고 있습니다.</p></div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-question"><span>협업이나 지원사업 제안은 어떻게 하나요?</span><span class="faq-icon">+</span></div>
-      <div class="faq-answer"><p>하단의 이메일 문의하기 버튼을 통해 언제든 제안해 주세요. 문화예술 프로그램, 데이터 기반 사회조사, 자연 기반 치유 콘텐츠 분야의 협업 및 지원사업 제안을 환영합니다.</p></div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-question"><span>개인도 프로그램에 참여할 수 있나요?</span><span class="faq-icon">+</span></div>
-      <div class="faq-answer"><p>대부분의 프로그램은 지자체·기관과 연계해 운영되지만, 외로움 레시피처럼 개인 참여형으로 열리는 프로그램도 있습니다. 모집 시기는 인스타그램 및 이메일 문의를 통해 안내드리고 있습니다.</p></div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-question"><span>외로움 보관소는 정확히 무엇인가요?</span><span class="faq-icon">+</span></div>
-      <div class="faq-answer"><p>시민이 자신의 외로움을 꺼내어 기록하고 분류하는 경험을 제공하는 브랜드입니다. 팝업 전시, 워크숍, 데이터 기반 연차보고서를 통해 외로움을 사회적 언어로 시각화하며, 2024~2025년 기준 15개 기관에서 진행되었습니다.</p></div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-question"><span>주로 어느 지역에서 활동하나요?</span><span class="faq-icon">+</span></div>
-      <div class="faq-answer"><p>서울을 중심으로 강원도 태백, 충주, 인천 등 여러 지역에서 지자체 및 문화재단과 협력해 활동하고 있습니다.</p></div>
-    </div>
+  <div class="faq-list" id="faqList">
   </div>
 </div>
 
@@ -742,9 +480,9 @@
 <div class="footer" id="contact">
   <div class="footer-inner">
     <div class="footer-left">
-      <h2>함께할 협업을<br>제안받습니다</h2>
-      <p>외로움 · 정서적 회복을 주제로 한 문화예술 프로그램,<br>데이터 기반 사회조사, 자연 기반 치유 콘텐츠 분야의<br>협업 및 지원사업 제안을 환영합니다.</p>
-      <a href="mailto:mindtoolslab@gmail.com" class="contact">이메일 문의하기</a>
+      <h2 id="footerTitle"></h2>
+      <p id="footerDesc"></p>
+      <a href="mailto:mindtoolslab@gmail.com" class="contact" id="footerEmailLink">이메일 문의하기</a>
     </div>
     <div class="footer-right">
       <div class="footer-logo"><img src="logo.png" alt="마음쓰임"></div>
@@ -772,21 +510,24 @@
 </div>
 
 <script>
-  let current = 0;
-  const slides = document.querySelectorAll('.slide');
-  const dots = document.querySelectorAll('.dot');
+  var GRADIENTS = [
+    'linear-gradient(160deg, #7B5EC8 0%, #4A2E80 100%)',
+    'linear-gradient(160deg, #C87B5E 0%, #8A4A2E 100%)',
+    'linear-gradient(160deg, #5E8AC8 0%, #2E4A8A 100%)',
+    'linear-gradient(160deg, #C8A05E 0%, #8A6A2E 100%)',
+    'linear-gradient(160deg, #6AC87B 0%, #2E8A3A 100%)',
+    'linear-gradient(160deg, #C85E8A 0%, #8A2E5A 100%)'
+  ];
+  var SLIDE_GRADIENTS = [
+    'linear-gradient(135deg, #5B3E96, #8A6BC8)',
+    'linear-gradient(135deg, #8A6BC8, #E8694A)',
+    'linear-gradient(135deg, #3D2A6B, #6B4FA0)',
+    'linear-gradient(135deg, #E8694A, #5B3E96)',
+    'linear-gradient(135deg, #6B4FA0, #C8A0E8)',
+    'linear-gradient(135deg, #4A3080, #E8694A)'
+  ];
 
-  function goSlide(n) {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = n;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-  }
-
-  setInterval(function() {
-    goSlide((current + 1) % slides.length);
-  }, 3500);
+  var siteData = null;
 
   function openModal(id) {
     document.getElementById(id).classList.add('open');
@@ -799,6 +540,7 @@
   function closeModal(e, id) {
     if (e.target === e.currentTarget) closeModalDirect(id);
   }
+
   function renderContent(items) {
     var grid = document.getElementById('contentGrid');
     grid.innerHTML = items.map(function(item) {
@@ -852,6 +594,135 @@
       });
     }
   });
+
+  /* ---- 슬라이드쇼 (동적) ---- */
+  var slideCurrent = 0;
+  var slideTimer = null;
+  function goSlide(n) {
+    var slides = document.querySelectorAll('#slideshow .slide');
+    var dots = document.querySelectorAll('#slideDots .dot');
+    if (!slides.length) return;
+    slides[slideCurrent].classList.remove('active');
+    dots[slideCurrent].classList.remove('active');
+    slideCurrent = n;
+    slides[slideCurrent].classList.add('active');
+    dots[slideCurrent].classList.add('active');
+  }
+
+  function photoBlock(photos) {
+    var arr = (photos && photos.length ? photos : ['', '', '', '']).slice(0, 4);
+    while (arr.length < 4) arr.push('');
+    return arr.map(function(p, i) {
+      return p
+        ? '<div class="modal-photo"><img src="' + p + '" alt=""></div>'
+        : '<div class="modal-photo">사진 ' + (i + 1) + '</div>';
+    }).join('');
+  }
+
+  function renderSite(data) {
+    siteData = data;
+
+    // HERO
+    document.getElementById('heroTag').textContent = data.hero.tag;
+    document.getElementById('heroTitle').innerHTML = data.hero.titleHtml;
+    document.getElementById('heroCta').textContent = data.hero.ctaText;
+
+    // SLIDESHOW (from projects)
+    var slideshow = document.getElementById('slideshow');
+    var dotsWrap = document.getElementById('slideDots');
+    slideshow.innerHTML = data.projects.map(function(p, i) {
+      var bgStyle = p.photos && p.photos[0] ? 'background-image:url(\'' + p.photos[0] + '\');background-size:cover;background-position:center;' : 'background:' + SLIDE_GRADIENTS[i % SLIDE_GRADIENTS.length] + ';';
+      return '<div class="slide' + (i === 0 ? ' active' : '') + '">' +
+        '<div class="slide-bg" style="' + bgStyle + '"></div>' +
+        '<div class="slide-overlay"></div>' +
+        '<div class="slide-content">' +
+        '<div class="slide-num">' + String(i + 1).padStart(2, '0') + ' / ' + String(data.projects.length).padStart(2, '0') + '</div>' +
+        '<div class="slide-title">' + p.title + '</div>' +
+        '<div class="slide-sub">' + p.slideSub + '</div>' +
+        '</div></div>';
+    }).join('');
+    dotsWrap.innerHTML = data.projects.map(function(p, i) {
+      return '<button class="dot' + (i === 0 ? ' active' : '') + '" onclick="goSlide(' + i + ')"></button>';
+    }).join('');
+    slideCurrent = 0;
+    if (slideTimer) clearInterval(slideTimer);
+    slideTimer = setInterval(function() {
+      goSlide((slideCurrent + 1) % data.projects.length);
+    }, 3500);
+
+    // PROGRAM CARDS
+    document.getElementById('programGrid').innerHTML = data.programs.map(function(prog, i) {
+      return '<div class="program-card">' +
+        '<div class="program-card-img" style="background:' + GRADIENTS[i % GRADIENTS.length] + ';"><span class="program-card-tag">' + prog.tag + '</span></div>' +
+        '<div class="program-card-body">' +
+        '<h3>' + prog.title + '</h3>' +
+        '<p>' + prog.desc + '</p>' +
+        '<a href="#" class="program-card-cta" onclick="openModal(\'' + prog.linkTo + '\'); return false;">자세히 보기 →</a>' +
+        '</div></div>';
+    }).join('');
+
+    // PARTNERS MARQUEE (duplicate list for seamless loop)
+    function marqueeHtml(list) {
+      var doubled = list.concat(list);
+      return doubled.map(function(name) { return '<span class="partner-badge">' + name + '</span>'; }).join('');
+    }
+    document.getElementById('partnersRow1').innerHTML = marqueeHtml(data.partnersRow1);
+    document.getElementById('partnersRow2').innerHTML = marqueeHtml(data.partnersRow2);
+
+    // ARCHIVE STATS
+    document.getElementById('archiveStats').innerHTML = data.archiveStats.map(function(s) {
+      return '<div class="stat">' +
+        '<div class="num' + (s.small ? ' small' : '') + '">' + s.num + '<span class="unit">' + s.unit + '</span></div>' +
+        '<div class="label">' + s.label + '</div>' +
+        '</div>';
+    }).join('');
+
+    // GALLERY
+    document.getElementById('galleryGrid').innerHTML = data.projects.map(function(p, i) {
+      var bgStyle = p.photos && p.photos[0] ? 'background-image:url(\'' + p.photos[0] + '\');background-size:cover;background-position:center;' : 'background:' + GRADIENTS[i % GRADIENTS.length] + ';';
+      return '<div class="gallery-item" style="' + bgStyle + '" onclick="openModal(\'' + p.id + '\')">' +
+        '<div class="gallery-ph">' +
+        '<div class="ph-title">' + p.title + '</div>' +
+        '<div class="ph-year">' + p.yearLabel + '</div>' +
+        '</div>' +
+        '<div class="gallery-overlay"><span>자세히 보기 →</span></div>' +
+        '</div>';
+    }).join('');
+
+    // MODALS
+    document.getElementById('modalsContainer').innerHTML = data.projects.map(function(p) {
+      return '<div class="modal-bg" id="' + p.id + '" onclick="closeModal(event,\'' + p.id + '\')">' +
+        '<div class="modal">' +
+        '<button class="modal-close" onclick="closeModalDirect(\'' + p.id + '\')">✕</button>' +
+        '<div class="modal-title">' + p.title + '</div>' +
+        '<div class="modal-sub">' + p.modalSub + '</div>' +
+        '<div class="modal-photos">' + photoBlock(p.photos) + '</div>' +
+        '<div class="modal-desc">' + p.modalDesc + '</div>' +
+        '</div></div>';
+    }).join('');
+
+    // FAQ
+    document.getElementById('faqList').innerHTML = data.faq.map(function(item) {
+      return '<div class="faq-item" onclick="toggleFaq(this)">' +
+        '<div class="faq-question"><span>' + item.q + '</span><span class="faq-icon">+</span></div>' +
+        '<div class="faq-answer"><p>' + item.a + '</p></div>' +
+        '</div>';
+    }).join('');
+
+    // FOOTER
+    document.getElementById('footerTitle').innerHTML = data.footer.titleHtml;
+    document.getElementById('footerDesc').innerHTML = data.footer.descHtml;
+    var emailLink = document.getElementById('footerEmailLink');
+    emailLink.href = 'mailto:' + data.footer.email;
+  }
+
+  fetch('./site-data.json')
+    .then(function(res) { return res.json(); })
+    .then(renderSite)
+    .catch(function(err) {
+      console.error('site-data.json load failed', err);
+    });
 </script>
+
 </body>
 </html>
