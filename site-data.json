@@ -175,13 +175,13 @@
   "sectionTitles": {
     "programsLabel": "Our Programs",
     "programsTitle": "핵심 사업 & 브랜드",
-    "contentLabel": "Mindtoolslab Contents",
-    "contentTitle": "마음쓰임 이야기",
+    "contentLabel": "Stories & Insights",
+    "contentTitle": "연구와 기록",
     "projectsLabel": "Projects",
-    "projectsTitle": "진행된 프로젝트",
+    "projectsTitle": "함께 만들어온 프로젝트",
     "partnersLabel": "Collaborators",
     "archiveLabel": "Archive",
-    "archiveTitle": "숫자로 보는 외로움 아카이브",
+    "archiveTitle": "함께 만든 감정 데이터",
     "faqLabel": "FAQ",
     "faqTitle": "자주 묻는 질문"
   }
