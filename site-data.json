@@ -61,7 +61,7 @@
       "modalSub": "자연 기반 회복 페스티벌",
       "modalDesc": "충주 소나무숲을 배경으로 한 자연 기반 회복 페스티벌입니다. 소나무의 상징성과 외로움 회복 서사를 결합한 커리큘럼을 운영합니다.",
       "photos": [
-        "",
+        "https://raw.githubusercontent.com/mindtoolslab/mindtools/main/images/modal3-1785053526493.jpg",
         "",
         "",
         ""
@@ -97,11 +97,11 @@
     },
     {
       "id": "modal6",
-      "title": "서울연결처방",
+      "title": "서울연결처방 - ",
       "yearLabel": "2026",
       "slideSub": "2026",
-      "modalSub": "2026 · 서울시 연계 프로그램",
-      "modalDesc": "서울연결처방 사업 연계 프로그램으로, 외로움 레시피를 기반으로 한 문화예술 프로그램을 운영합니다.",
+      "modalSub": "서울연결처방 - 외로움 없는 서울",
+      "modalDesc": "서울시복지재단 서울연결처방 사업 프로그램으로 [외로움 레시피]를 기반으로 한 문화예술 프로그램을 운영합니다.",
       "photos": [
         "",
         "",
