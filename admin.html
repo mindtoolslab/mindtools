@@ -121,7 +121,7 @@
     <!-- ===== CONTENT (content.json) ===== -->
     <div class="tab-panel active lockable" id="panel-content">
       <div class="card">
-        <h2>새 글 작성</h2>
+        <h2 id="postFormTitle">새 글 작성</h2>
         <label>카테고리</label>
         <select id="catSelect">
           <option value="story">외로움 이야기</option>
@@ -132,9 +132,10 @@
         <input type="text" id="titleInput" placeholder="글 제목을 입력하세요">
         <div class="row">
           <div><label>날짜</label><input type="text" id="dateInput" placeholder="2026.07"></div>
-          <div><label>사진 (선택)</label><input type="file" id="imageInput" accept="image/*"></div>
+          <div><label>사진 (선택, 수정 시 비워두면 기존 사진 유지)</label><input type="file" id="imageInput" accept="image/*"></div>
         </div>
         <button class="wide" onclick="submitPost()" id="submitBtn">저장하고 GitHub에 반영</button>
+        <button class="wide ghost" onclick="cancelEdit()" id="cancelEditBtn" style="display:none;">수정 취소</button>
         <div id="postStatus" class="status"></div>
       </div>
       <div class="card">
@@ -240,7 +241,7 @@
 </div>
 
 <script>
-  var state = { owner: '', repo: '', branch: 'main', token: '', sha: null, items: [], siteSha: null, site: null };
+  var state = { owner: '', repo: '', branch: 'main', token: '', sha: null, items: [], siteSha: null, site: null, editingId: null };
 
   window.addEventListener('DOMContentLoaded', function() {
     var saved = localStorage.getItem('mindtools_admin_config');
@@ -344,8 +345,38 @@
     list.innerHTML = sorted.map(function(item) {
       return '<div class="item-row"><div class="meta"><span class="tag">' + (item.categoryLabel || catLabels[item.category] || '') + '</span>' +
         item.title + '<span class="date">' + item.date + '</span></div>' +
-        '<button class="secondary" onclick="deleteItem(\'' + item.id + '\')">삭제</button></div>';
+        '<div style="display:flex;gap:8px;">' +
+        '<button class="ghost" onclick="startEdit(\'' + item.id + '\')">수정</button>' +
+        '<button class="secondary" onclick="deleteItem(\'' + item.id + '\')">삭제</button>' +
+        '</div></div>';
     }).join('');
+  }
+
+  function startEdit(id) {
+    var item = state.items.find(function(i) { return i.id === id; });
+    if (!item) return;
+    state.editingId = id;
+    document.getElementById('catSelect').value = item.category;
+    document.getElementById('titleInput').value = item.title;
+    document.getElementById('dateInput').value = item.date;
+    document.getElementById('imageInput').value = '';
+    document.getElementById('postFormTitle').textContent = '글 수정 중: ' + item.title;
+    document.getElementById('submitBtn').textContent = '수정 내용 저장';
+    document.getElementById('cancelEditBtn').style.display = 'block';
+    showTab('content');
+    window.scrollTo(0, 0);
+  }
+
+  function cancelEdit() {
+    state.editingId = null;
+    document.getElementById('catSelect').value = 'story';
+    document.getElementById('titleInput').value = '';
+    document.getElementById('dateInput').value = '';
+    document.getElementById('imageInput').value = '';
+    document.getElementById('postFormTitle').textContent = '새 글 작성';
+    document.getElementById('submitBtn').textContent = '저장하고 GitHub에 반영';
+    document.getElementById('cancelEditBtn').style.display = 'none';
+    showStatus('postStatus', 'ok', '수정을 취소했습니다.');
   }
 
   function submitPost() {
@@ -361,27 +392,41 @@
     btn.disabled = true;
     showStatus('postStatus', 'loading', '저장하는 중...');
 
+    var isEdit = !!state.editingId;
+    var targetId = isEdit ? state.editingId : (category + '-' + Date.now());
+    var existing = isEdit ? state.items.find(function(i) { return i.id === targetId; }) : null;
+
     var newItem = {
-      id: category + '-' + Date.now(), category: category, categoryLabel: catLabels[category],
-      title: title, date: date, image: '', colorClass: 'k' + ((state.items.length % 6) + 1)
+      id: targetId, category: category, categoryLabel: catLabels[category],
+      title: title, date: date,
+      image: existing ? existing.image : '',
+      colorClass: existing ? existing.colorClass : 'k' + ((state.items.length % 6) + 1)
     };
 
-    var imageStep = file ? uploadImage(file, newItem.id).then(function(url) { newItem.image = url; }) : Promise.resolve();
+    var imageStep = file ? uploadImage(file, targetId).then(function(url) { newItem.image = url; }) : Promise.resolve();
 
     imageStep.then(function() {
-      var updated = state.items.concat([newItem]);
+      var updated;
+      if (isEdit) {
+        updated = state.items.map(function(i) { return i.id === targetId ? newItem : i; });
+      } else {
+        updated = state.items.concat([newItem]);
+      }
+      var msg = isEdit ? '글 수정: ' + title : '새 글 추가: ' + title;
       return fetch('https://api.github.com/repos/' + state.owner + '/' + state.repo + '/contents/content.json', {
         method: 'PUT', headers: ghHeaders(),
-        body: JSON.stringify({ message: '새 글 추가: ' + title, content: b64EncodeUnicode(JSON.stringify(updated, null, 2)), sha: state.sha, branch: state.branch })
-      }).then(function(res) { if (!res.ok) throw new Error('content.json 업데이트 실패 (status ' + res.status + ')'); return res.json(); });
-    }).then(function(data) {
-      state.sha = data.content.sha;
-      state.items.push(newItem);
+        body: JSON.stringify({ message: msg, content: b64EncodeUnicode(JSON.stringify(updated, null, 2)), sha: state.sha, branch: state.branch })
+      }).then(function(res) { if (!res.ok) throw new Error('content.json 업데이트 실패 (status ' + res.status + ')'); return res.json(); })
+        .then(function(data) { state.sha = data.content.sha; state.items = updated; });
+    }).then(function() {
       renderItemList();
-      showStatus('postStatus', 'ok', '저장되었습니다! 잠시 후 사이트에 반영됩니다.');
-      document.getElementById('titleInput').value = '';
-      document.getElementById('dateInput').value = '';
-      fileInput.value = '';
+      showStatus('postStatus', 'ok', isEdit ? '수정되었습니다!' : '저장되었습니다! 잠시 후 사이트에 반영됩니다.');
+      if (isEdit) cancelEdit();
+      else {
+        document.getElementById('titleInput').value = '';
+        document.getElementById('dateInput').value = '';
+        fileInput.value = '';
+      }
     }).catch(function(err) { showStatus('postStatus', 'err', err.message); })
       .finally(function() { btn.disabled = false; });
   }
