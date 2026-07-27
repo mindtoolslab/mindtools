@@ -128,13 +128,21 @@
     {
       "name": "인천서해구청",
       "logo": "https://raw.githubusercontent.com/mindtoolslab/mindtools/main/images/partner-1-5-1785099635503.jpg"
-    }
-  ],
-  "partnersRow2": [
+    },
     {
       "name": "동대문문화재단",
       "logo": ""
     },
+    {
+      "name": "서울시동부여성발전센터",
+      "logo": ""
+    },
+    {
+      "name": "서울청년센터광진",
+      "logo": ""
+    }
+  ],
+  "partnersRow2": [
     {
       "name": "답십리영화미디어아트센터",
       "logo": ""
@@ -149,14 +157,6 @@
     },
     {
       "name": "헬렌켈러의집",
-      "logo": ""
-    },
-    {
-      "name": "서울시동부여성발전센터",
-      "logo": ""
-    },
-    {
-      "name": "서울청년센터광진",
       "logo": ""
     }
   ],
