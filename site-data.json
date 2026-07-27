@@ -131,15 +131,23 @@
     },
     {
       "name": "동대문문화재단",
-      "logo": ""
+      "logo": "https://raw.githubusercontent.com/mindtoolslab/mindtools/main/images/partner-1-5-1785115716825.jpg"
     },
     {
       "name": "서울시동부여성발전센터",
-      "logo": ""
+      "logo": "https://raw.githubusercontent.com/mindtoolslab/mindtools/main/images/partner-1-6-1785115801827.jpg"
     },
     {
       "name": "서울청년센터광진",
-      "logo": ""
+      "logo": "https://raw.githubusercontent.com/mindtoolslab/mindtools/main/images/partner-1-7-1785115864882.jpg"
+    },
+    {
+      "name": "서울잇다플레이스",
+      "logo": "https://raw.githubusercontent.com/mindtoolslab/mindtools/main/images/partner-1-8-1785116008437.jpg"
+    },
+    {
+      "name": "광진1인가구지원센터",
+      "logo": "https://raw.githubusercontent.com/mindtoolslab/mindtools/main/images/partner-1-9-1785116117542.jpg"
     }
   ],
   "partnersRow2": [
