@@ -62,7 +62,7 @@
     letter-spacing: -0.5px;
   }
   .hero-left h1 .bold {
-    font-weight: 900; color: #5B3E96;
+    font-weight: 700; color: #5B3E96;
   }
   .hero-left h1 .thin {
     font-weight: 300; color: #766E80;
@@ -154,6 +154,12 @@
 
   /* PROGRAM CARDS — 밑미 스타일 카드형 프로그램 */
   .program-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .reveal-item {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-item.revealed { opacity: 1; transform: translateY(0); }
+
   .program-card {
     background: #fff; border-radius: 20px; overflow: hidden;
     border: 1px solid #EFE6E0; transition: transform 0.25s, box-shadow 0.25s;
@@ -224,10 +230,10 @@
     white-space: nowrap; flex-shrink: 0;
   }
   .partner-badge-logo {
-    padding: 10px 24px; display: flex; align-items: center; justify-content: center;
-    height: 48px; box-sizing: content-box;
+    padding: 8px 14px; display: flex; align-items: center; justify-content: center;
+    width: 132px; height: 52px; box-sizing: content-box;
   }
-  .partner-badge-logo img { max-height: 100%; max-width: 140px; object-fit: contain; }
+  .partner-badge-logo img { width: 100%; height: 100%; object-fit: contain; }
 
   /* FAQ */
   .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 800px; }
@@ -555,7 +561,7 @@
       var tag = hasLink ? 'a' : 'div';
       var linkAttrs = hasLink ? ' href="' + item.link + '" target="_blank" rel="noopener"' : '';
       var cursorStyle = hasLink ? '' : ' style="cursor:default;"';
-      return '<' + tag + ' class="content-card ' + (item.colorClass || '') + '" data-cat="' + item.category + '"' + linkAttrs + cursorStyle + '>' +
+      return '<' + tag + ' class="content-card reveal-item ' + (item.colorClass || '') + '" data-cat="' + item.category + '"' + linkAttrs + cursorStyle + '>' +
         '<div class="content-card-img"' + imgStyle + '>' + imgText + '</div>' +
         '<div class="content-card-body">' +
         '<div class="content-cat">' + item.categoryLabel + '</div>' +
@@ -570,6 +576,7 @@
     .then(function(items) {
       items.sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
       renderContent(items);
+      initScrollReveal();
     })
     .catch(function(err) {
       document.getElementById('contentGrid').innerHTML =
@@ -709,7 +716,7 @@
 
     // PROGRAM CARDS
     document.getElementById('programGrid').innerHTML = data.programs.map(function(prog, i) {
-      return '<div class="program-card">' +
+      return '<div class="program-card reveal-item">' +
         '<div class="program-card-img" style="background:' + GRADIENTS[i % GRADIENTS.length] + ';"><span class="program-card-tag">' + prog.tag + '</span></div>' +
         '<div class="program-card-body">' +
         '<h3>' + prog.title + '</h3>' +
@@ -746,7 +753,7 @@
     // GALLERY
     document.getElementById('galleryGrid').innerHTML = data.projects.map(function(p, i) {
       var bgStyle = p.photos && p.photos[0] ? 'background-image:url(\'' + p.photos[0] + '\');background-size:cover;background-position:center;' : 'background:' + GRADIENTS[i % GRADIENTS.length] + ';';
-      return '<div class="gallery-item" style="' + bgStyle + '" onclick="openModal(\'' + p.id + '\')">' +
+      return '<div class="gallery-item reveal-item" style="' + bgStyle + '" onclick="openModal(\'' + p.id + '\')">' +
         '<div class="gallery-ph">' +
         '<div class="ph-title">' + p.title + '</div>' +
         '<div class="ph-year">' + p.yearLabel + '</div>' +
@@ -769,7 +776,7 @@
 
     // FAQ
     document.getElementById('faqList').innerHTML = data.faq.map(function(item) {
-      return '<div class="faq-item" onclick="toggleFaq(this)">' +
+      return '<div class="faq-item reveal-item" onclick="toggleFaq(this)">' +
         '<div class="faq-question"><span>' + item.q + '</span><span class="faq-icon">+</span></div>' +
         '<div class="faq-answer"><p>' + item.a + '</p></div>' +
         '</div>';
@@ -780,6 +787,35 @@
     document.getElementById('footerDesc').innerHTML = data.footer.descHtml;
     var emailLink = document.getElementById('footerEmailLink');
     emailLink.href = 'mailto:' + data.footer.email;
+
+    initScrollReveal();
+  }
+
+  function initScrollReveal() {
+    var items = document.querySelectorAll('.reveal-item:not(.reveal-wired)');
+    if (!items.length) return;
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function(el) { el.classList.add('revealed', 'reveal-wired'); });
+      return;
+    }
+    var counters = {};
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var parentId = (el.parentElement && el.parentElement.id) || 'default';
+          counters[parentId] = (counters[parentId] || 0) + 1;
+          var delay = Math.min((counters[parentId] - 1) * 70, 350);
+          el.style.transitionDelay = delay + 'ms';
+          el.classList.add('revealed');
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15 });
+    items.forEach(function(el) {
+      el.classList.add('reveal-wired');
+      observer.observe(el);
+    });
   }
 
   fetch('./site-data.json')
